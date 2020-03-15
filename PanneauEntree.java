@@ -1,3 +1,5 @@
+package com.company;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -77,16 +79,16 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     public void mouseDragged(MouseEvent e)
     {
 
-            xmousebefore=xmouse;
-            ymousebefore=ymouse;
-            xmouse = e.getX();
-            ymouse = e.getY();
+        xmousebefore=xmouse;
+        ymousebefore=ymouse;
+        xmouse = e.getX();
+        ymouse = e.getY();
 
-            if (xmouse!=0 && ymouse!=0 && xmousebefore!=0 && ymousebefore!=0)
-            {
-                listepoints.add(new APoint(xmouse - this.getWidth() / 2, ymouse - this.getHeight() / 2));
-                this.repaint();
-            }
+        if (xmouse!=0 && ymouse!=0 && xmousebefore!=0 && ymousebefore!=0)
+        {
+            listepoints.add(new APoint(xmouse - this.getWidth() / 2, ymouse - this.getHeight() / 2)); //Stocke points
+            this.repaint();
+        }
 
     }
     public void mouseMoved(MouseEvent e)

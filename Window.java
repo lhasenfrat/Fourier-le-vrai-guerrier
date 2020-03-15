@@ -1,6 +1,11 @@
+package com.company;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 import javax.swing.*;
+import org.jtransforms.fft.*;
+
 
 public class Window extends JFrame implements ActionListener {
 
@@ -12,6 +17,7 @@ public class Window extends JFrame implements ActionListener {
     JTextArea scroll;
     JScrollPane scrollequation;
     JLabel precitext;
+    PanneauEntree pEntree;
 
 
     public Window(){
@@ -62,6 +68,9 @@ public class Window extends JFrame implements ActionListener {
         scrollequation = new JScrollPane(scroll);
         scrollequation.setBounds((int)(c*(100)),(int)(c*(50+500+50+75+50)),(int)(c*1600),(int)(c*75));
 
+        /*Création du Panneau d'entrée*/
+        PanneauEntree pEntree = new PanneauEntree(); /*A PLACER*/
+
         /*Ajout à la fenetre principale*/
         this.add(paneldraw);
         this.add(panelshow);
@@ -79,11 +88,28 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
+            fourier(pEntree.listepoints);
         }
 
         if ((e.getSource() == buttonclear)) {
         }
 
+    }
+
+    public double[] fourier (LinkedList<APoint> ini){
+
+        /*Déplacement Linked vers tableau*/
+        double[] four = new double[ini.size() * 2];
+        for(int i = 0;i<ini.size()-1;i++){
+            four[2*i] = ini.get(i).x;
+            four[2*i+1] = ini.get(i).y;
+        }
+
+        /*Application de la tranformée*/
+        DoubleFFT_1D dfft1d = new DoubleFFT_1D(four.length);
+        dfft1d.complexForward(four); //Applique Fourier
+
+        return four;
     }
 
 }
