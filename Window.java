@@ -8,7 +8,7 @@ public class Window extends JFrame implements ActionListener {
     JPanel panelshow;
     JButton buttonstart;
     JButton buttonclear;
-    JPanel curseurpreci;
+    JSlider curseurpreci;
     JTextArea scroll;
     JScrollPane scrollequation;
 
@@ -50,8 +50,7 @@ public class Window extends JFrame implements ActionListener {
         buttonclear.setBounds((int)(200*c+100*c+200*c),(int)(c*(50+500+50)),(int)(200*c),(int)(75*c));
 
         /*Le curseur pour regler la precision*/ //à modifier en curseur après
-        curseurpreci = new JPanel();
-        curseurpreci.setBackground(Color.blue);
+        curseurpreci = new JSlider();
         curseurpreci.setBounds((int)(c*(100+700+200+100)),(int)(c*(50+500+50)),(int)(c*500),(int)(c*75));
 
         /*Affichage de l'équation*/
