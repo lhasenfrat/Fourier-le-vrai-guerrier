@@ -11,6 +11,7 @@ public class Window extends JFrame implements ActionListener {
     JSlider curseurpreci;
     JTextArea scroll;
     JScrollPane scrollequation;
+    JLabel precitext;
 
 
     public Window(){
@@ -51,6 +52,9 @@ public class Window extends JFrame implements ActionListener {
 
         /*Le curseur pour regler la precision*/ //à modifier en curseur après
         curseurpreci = new JSlider();
+        precitext = new JLabel();
+        precitext.setText("PRECISION: ");
+        precitext.setBounds((int)(c*(100+700+200+100+210)),(int)(c*(500+50+20)),(int)(c*250),(int)(c*25));
         curseurpreci.setBounds((int)(c*(100+700+200+100)),(int)(c*(50+500+50)),(int)(c*500),(int)(c*75));
 
         /*Affichage de l'équation*/
