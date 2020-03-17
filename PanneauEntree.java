@@ -1,5 +1,3 @@
-package com.company;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -15,7 +13,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     boolean needclear=true;
     boolean ispressed=false;
     boolean ispressedbefore=false;
-    LinkedList<APoint> listepoints ;
+    LinkedList<Complexe> listepoints ;
     MouseEvent souris;
 
     public PanneauEntree()
@@ -23,13 +21,13 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        listepoints = new LinkedList<APoint>();
+        listepoints = new LinkedList<Complexe>();
     }
 
 
     public void paint(Graphics g){
+       
 
-        g.setColor(Color.BLACK);
         g.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
         if (needclear)
         {
@@ -68,27 +66,26 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public void mouseReleased(MouseEvent e)
     {
-        if (listepoints.getFirst().equals(new APoint(0,0))){listepoints.removeFirst();}
         ispressed=false;
-        xmousebefore=(int)(listepoints.getLast().x +this.getWidth() / 2);
-        ymousebefore=(int)(listepoints.getLast().y + this.getHeight() / 2);
-        xmouse=(int)(listepoints.getFirst().x + this.getWidth() / 2);
-        ymouse=(int)(listepoints.getFirst().y + this.getHeight() / 2);
+        xmousebefore=(int)(listepoints.getLast().getRe() +this.getWidth() / 2);
+        ymousebefore=(int)(listepoints.getLast().getIm() + this.getHeight() / 2);
+        xmouse=(int)(listepoints.getFirst().getRe() + this.getWidth() / 2);
+        ymouse=(int)(listepoints.getFirst().getIm() + this.getHeight() / 2);
         this.repaint();
     }
     public void mouseDragged(MouseEvent e)
     {
 
-        xmousebefore=xmouse;
-        ymousebefore=ymouse;
-        xmouse = e.getX();
-        ymouse = e.getY();
+            xmousebefore=xmouse;
+            ymousebefore=ymouse;
+            xmouse = e.getX();
+            ymouse = e.getY();
 
-        if (xmouse!=0 && ymouse!=0 && xmousebefore!=0 && ymousebefore!=0)
-        {
-            listepoints.add(new APoint(xmouse - this.getWidth() / 2, ymouse - this.getHeight() / 2)); //Stocke points
-            this.repaint();
-        }
+            if (xmouse!=0 && ymouse!=0 && xmousebefore!=0 && ymousebefore!=0)
+            {
+                listepoints.add(new Complexe(xmouse - this.getWidth() / 2, ymouse - this.getHeight() / 2));
+                this.repaint();
+            }
 
     }
     public void mouseMoved(MouseEvent e)
