@@ -1,10 +1,8 @@
-package com.company;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import javax.swing.*;
-import org.jtransforms.fft.*;
 
 
 public class Window extends JFrame implements ActionListener {
@@ -88,28 +86,31 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            fourier(pEntree.listepoints);
+			panelshow = new DispPan(tFourier(pEntree.listepoints, 100));
         }
 
         if ((e.getSource() == buttonclear)) {
+			panelshow = new JPanel();
         }
 
     }
 
-    public double[] fourier (LinkedList<APoint> ini){
-
-        /*Déplacement Linked vers tableau*/
-        double[] four = new double[ini.size() * 2];
-        for(int i = 0;i<ini.size()-1;i++){
-            four[2*i] = ini.get(i).x;
-            four[2*i+1] = ini.get(i).y;
-        }
-
-        /*Application de la tranformée*/
-        DoubleFFT_1D dfft1d = new DoubleFFT_1D(four.length);
-        dfft1d.complexForward(four); //Applique Fourier
-
-        return four;
-    }
+    public static LinkedList<Complexe> tFourier(LinkedList<Complexe> l, int nbVect){	//méthode qui effectue la transformée de fourier
+		double nbPoints = l.size();
+		Complexe integrale = new Complexe(0,0);
+		LinkedList<Complexe> renvoi = new LinkedList<Complexe>();
+		for(int i = 0 ; i < nbVect ; i++){
+			integrale = new Complexe(0,0);
+			double t = 0;
+		for(Complexe c : l){
+			Complexe sc = new Complexe(1, c.getRho(), c.getTheta() - (i*Math.PI*2*t/nbPoints)); 
+			integrale.sommeV1(sc);
+			t++;
+		}
+		integrale.setRho(integrale.getRho()/(nbPoints));
+		renvoi.add(integrale);
+	}
+		return(renvoi);
+	}
 
 }
