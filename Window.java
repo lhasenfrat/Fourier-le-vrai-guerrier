@@ -7,7 +7,6 @@ import javax.swing.*;
 
 public class Window extends JFrame implements ActionListener {
 
-    JPanel paneldraw;
     JPanel panelshow;
     JButton buttonstart;
     JButton buttonclear;
@@ -15,7 +14,7 @@ public class Window extends JFrame implements ActionListener {
     JTextArea scroll;
     JScrollPane scrollequation;
     JLabel precitext;
-    PanneauEntree pEntree;
+    PanneauEntree paneldraw;
 
 
     public Window(){
@@ -35,14 +34,12 @@ public class Window extends JFrame implements ActionListener {
         setResizable(false);
 
         /*Panel dessin*/
-        paneldraw = new JPanel();
-        paneldraw.setBackground(Color.green);
+        paneldraw = new PanneauEntree();
         paneldraw.setLayout(null);
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Panel affichage*/
         panelshow = new JPanel();
-        panelshow.setBackground(Color.red);
         panelshow.setLayout(null);
         panelshow.setBounds((int)(c*(100+200+700)),(int)(50*c),(int)(700*c),(int)(500*c));
 
@@ -86,11 +83,11 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-			panelshow = new DispPan(tFourier(pEntree.listepoints, 100));
+			panelshow = new DispPan(tFourier(paneldraw.listepoints, 100));
+			System.out.println(paneldraw.listepoints);
         }
 
         if ((e.getSource() == buttonclear)) {
-			panelshow = new JPanel();
         }
 
     }
