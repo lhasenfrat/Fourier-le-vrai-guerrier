@@ -14,6 +14,7 @@ public class Window extends JFrame implements ActionListener {
     JScrollPane scrollequation;
     JLabel precitext;
     PanneauEntree paneldraw;
+    JPanel panelblank;
 
 
     public Window(){
@@ -33,8 +34,11 @@ public class Window extends JFrame implements ActionListener {
 
         /*Panel dessin*/
         paneldraw = new PanneauEntree();
-        paneldraw.setBackground(Color.white);
+        panelblank = new JPanel();
+        panelblank.setBackground(Color.WHITE);
         paneldraw.setLayout(null);
+        panelblank.setLayout(null);
+        panelblank.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Panel affichage*/
@@ -63,10 +67,8 @@ public class Window extends JFrame implements ActionListener {
         scrollequation = new JScrollPane(scroll);
         scrollequation.setBounds((int)(c*(100)),(int)(c*(50+500+50+75+50)),(int)(c*1600),(int)(c*75));
 
-        /*Création du Panneau d'entrée*/
-        PanneauEntree pEntree = new PanneauEntree(); /*A PLACER*/
-
         /*Ajout à la fenetre principale*/
+        this.add(panelblank);
         this.add(paneldraw);
         this.add(panelshow);
         this.add(buttonstart);
