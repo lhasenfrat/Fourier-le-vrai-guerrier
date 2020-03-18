@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
@@ -29,17 +28,18 @@ public class Window extends JFrame implements ActionListener {
         setTitle("Projet guerrier- Fenetre principale");
         setLocation((int)((screenW-(1800*c))/2),(int)((screenH-(900*c))/2));
         setSize((int)(1800*c),(int)(900*c));
-        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         /*Panel dessin*/
         paneldraw = new PanneauEntree();
+        paneldraw.setBackground(Color.white);
         paneldraw.setLayout(null);
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Panel affichage*/
         panelshow = new JPanel();
+        panelshow.setBackground(Color.white);
         panelshow.setLayout(null);
         panelshow.setBounds((int)(c*(100+200+700)),(int)(50*c),(int)(700*c),(int)(500*c));
 
@@ -78,13 +78,16 @@ public class Window extends JFrame implements ActionListener {
         buttonstart.addActionListener(this);
         buttonclear.addActionListener(this);
 
+
+        setVisible(true);
+
     }
 
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-			panelshow = new DispPan(tFourier(paneldraw.listepoints, 100));
-			System.out.println(paneldraw.listepoints);
+            panelshow = new DispPan(tFourier(paneldraw.listepoints, 100));
+            System.out.println(paneldraw.listepoints);
         }
 
         if ((e.getSource() == buttonclear)) {
@@ -93,21 +96,21 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public static LinkedList<Complexe> tFourier(LinkedList<Complexe> l, int nbVect){	//méthode qui effectue la transformée de fourier
-		double nbPoints = l.size();
-		Complexe integrale = new Complexe(0,0);
-		LinkedList<Complexe> renvoi = new LinkedList<Complexe>();
-		for(int i = 0 ; i < nbVect ; i++){
-			integrale = new Complexe(0,0);
-			double t = 0;
-		for(Complexe c : l){
-			Complexe sc = new Complexe(1, c.getRho(), c.getTheta() - (i*Math.PI*2*t/nbPoints)); 
-			integrale.sommeV1(sc);
-			t++;
-		}
-		integrale.setRho(integrale.getRho()/(nbPoints));
-		renvoi.add(integrale);
-	}
-		return(renvoi);
-	}
+        double nbPoints = l.size();
+        Complexe integrale = new Complexe(0,0);
+        LinkedList<Complexe> renvoi = new LinkedList<Complexe>();
+        for(int i = 0 ; i < nbVect ; i++){
+            integrale = new Complexe(0,0);
+            double t = 0;
+            for(Complexe c : l){
+                Complexe sc = new Complexe(1, c.getRho(), c.getTheta() - (i*Math.PI*2*t/nbPoints));
+                integrale.sommeV1(sc);
+                t++;
+            }
+            integrale.setRho(integrale.getRho()/(nbPoints));
+            renvoi.add(integrale);
+        }
+        return(renvoi);
+    }
 
 }
