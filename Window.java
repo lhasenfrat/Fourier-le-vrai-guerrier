@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Window extends JFrame implements ActionListener {
 
-    JPanel panelshow;
+    DispPan panelshow;
     JButton buttonstart;
     JButton buttonclear;
     JSlider curseurpreci;
@@ -42,8 +42,7 @@ public class Window extends JFrame implements ActionListener {
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Panel affichage*/
-        panelshow = new JPanel();
-        panelshow.setBackground(Color.white);
+        panelshow = new DispPan(new LinkedList<Complexe>());
         panelshow.setLayout(null);
         panelshow.setBounds((int)(c*(100+200+700)),(int)(50*c),(int)(700*c),(int)(500*c));
 
@@ -88,11 +87,11 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            panelshow = new DispPan(tFourier(paneldraw.listepoints, 100));
-            System.out.println(paneldraw.listepoints);
+            panelshow.ligne = tFourier(paneldraw.listepoints, 100);
         }
 
         if ((e.getSource() == buttonclear)) {
+            paneldraw.repaint(); /*ne marche pas*/
         }
 
     }
