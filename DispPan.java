@@ -32,13 +32,9 @@ public class DispPan extends JPanel implements ActionListener{
 	public void paint(Graphics h){
 		h.setColor(Color.white);
 		h.fillRect(0,0,getWidth(),getHeight());
+		h.setColor(Color.black);
 		Complexe point1 = new Complexe(this.getWidth()/2, this.getHeight()/2);	//on place le premier point au milieu du panneau pour tracer le premier trait
-		Complexe point0 = new Complexe(this.getWidth()/2, this.getHeight()/2);
 		for(Complexe c : ligne){
-			h.setColor(Color.black);
-			if (point1.equals(point0)) {
-				h.setColor(Color.white); //pour enlever le premier trait noir du milieu inutile qui ne bouge pas
-			}
 			h.drawLine((int)(point1.getRe()), (int)(point1.getIm()), (int)(c.getRe() + point1.getRe()), (int)(c.getIm() + point1.getIm()));
 			point1 = new Complexe(c.getRe() + point1.getRe(), c.getIm() + point1.getIm());
 		}
