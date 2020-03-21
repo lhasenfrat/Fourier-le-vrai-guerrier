@@ -5,10 +5,11 @@ import java.awt.event.*;
 import java.awt.Color;
 
 public class DispPan extends JPanel implements ActionListener{
-	private LinkedList<Complexe> ligne;
+	public LinkedList<Complexe> ligne;
 	private Timer chrono;
-	private LinkedList<Complexe> dessin;
+	public LinkedList<Complexe> dessin;
 	private double angleRot;
+
 	
 	public DispPan(LinkedList<Complexe> d){
 		this.ligne = d;
@@ -17,7 +18,16 @@ public class DispPan extends JPanel implements ActionListener{
 		chrono = new Timer(50, this);
 		chrono.start();
 	}
+	public DispPan(){
+		this.ligne = new LinkedList<Complexe>();
+		this.dessin = new LinkedList<Complexe>();
+		angleRot = 2*Math.PI/100;
+		chrono = new Timer(50, this);
+		chrono.start();
+	}
+
 	public void actionPerformed(ActionEvent e){
+
 		int i = 0;
 		Complexe lineEnd = new Complexe(0,0);
 		for(Complexe c : ligne){
@@ -30,6 +40,7 @@ public class DispPan extends JPanel implements ActionListener{
 	}
 	
 	public void paint(Graphics g){
+
 		g.setColor(Color.white);
 		g.fillRect(0,0,getWidth(),getHeight());
         g.setColor(Color.black);
@@ -41,8 +52,9 @@ public class DispPan extends JPanel implements ActionListener{
 		point1 = new Complexe(this.getWidth()/2 + (int)(dessin.getFirst().getRe()), this.getHeight()/2 + (int)(dessin.getFirst().getIm()));
 		g.setColor(Color.red);
 		for(Complexe c : dessin){
+
 			g.drawLine((int)(point1.getRe()), (int)(point1.getIm()), (int)(c.getRe() + this.getWidth()/2), (int)(c.getIm()) + this.getHeight()/2);
-			point1 = new Complexe(c.getRe() + this.getWidth()/2, c.getIm() + this.getHeight()/2);;
+			point1 = new Complexe(c.getRe() + this.getWidth()/2, c.getIm() + this.getHeight()/2);
 		}
 		
 	}

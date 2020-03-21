@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Window extends JFrame implements ActionListener {
 
-    JPanel panelshow;
+    DispPan panelshow;
     JButton buttonstart;
     JButton buttonclear;
     JSlider curseurpreci;
@@ -14,8 +14,8 @@ public class Window extends JFrame implements ActionListener {
     JScrollPane scrollequation;
     JLabel precitext;
     PanneauEntree paneldraw;
-    JPanel panelblank;
 
+    double c;
 
     public Window(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,17 +34,15 @@ public class Window extends JFrame implements ActionListener {
 
         /*Panel dessin*/
         paneldraw = new PanneauEntree();
-        panelblank = new JPanel();
-        panelblank.setBackground(Color.WHITE);
-        paneldraw.setLayout(null);
-        panelblank.setLayout(null);
-        panelblank.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
+
+
+
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Panel affichage*/
-        panelshow = new JPanel();
+        panelshow = new DispPan();
         panelshow.setBackground(Color.white);
-        panelshow.setLayout(null);
+
         panelshow.setBounds((int)(c*(100+200+700)),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Les boutons*/
@@ -68,7 +66,7 @@ public class Window extends JFrame implements ActionListener {
         scrollequation.setBounds((int)(c*(100)),(int)(c*(50+500+50+75+50)),(int)(c*1600),(int)(c*75));
 
         /*Ajout à la fenetre principale*/
-        this.add(panelblank);
+
         this.add(paneldraw);
         this.add(panelshow);
         this.add(buttonstart);
@@ -88,11 +86,14 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            panelshow = new DispPan(tFourier(paneldraw.listepoints, 100));
-            System.out.println(paneldraw.listepoints);
+            panelshow.ligne= tFourier(paneldraw.listepoints, 20);
+
         }
 
         if ((e.getSource() == buttonclear)) {
+            panelshow.ligne = new LinkedList<Complexe>();
+            panelshow.dessin = new LinkedList<Complexe>();
+
         }
 
     }

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseListener
@@ -25,14 +26,14 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     }
 
 
-    public void paint(Graphics g){
+    public void paint(Graphics z){
        
 
-        g.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
+        z.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
         if (needclear)
         {
-            g.setColor(Color.WHITE);
-            g.fillRect(0,0,getWidth(),getHeight());
+            z.setColor(Color.WHITE);
+            z.fillRect(0,0,getWidth(),getHeight());
             needclear=false;
         }
 
@@ -66,11 +67,14 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public void mouseReleased(MouseEvent e)
     {
+
         ispressed=false;
         xmousebefore=(int)(listepoints.getLast().getRe() +this.getWidth() / 2);
         ymousebefore=(int)(listepoints.getLast().getIm() + this.getHeight() / 2);
         xmouse=(int)(listepoints.getFirst().getRe() + this.getWidth() / 2);
         ymouse=(int)(listepoints.getFirst().getIm() + this.getHeight() / 2);
+
+
         this.repaint();
     }
     public void mouseDragged(MouseEvent e)
