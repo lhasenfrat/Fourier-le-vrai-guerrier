@@ -15,7 +15,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     boolean ispressed=false;
     boolean ispressedbefore=false;
     LinkedList<Complexe> listepoints ;
-    LinkedList<LignesEntree> listecoordreelles ;
+    LinkedList<int[]> listecoordreelles ;
 
     MouseEvent souris;
 
@@ -25,7 +25,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         listepoints = new LinkedList<Complexe>();
-        listecoordreelles= new LinkedList<LignesEntree>();
+        listecoordreelles= new LinkedList<int[]>();
     }
 
 
@@ -33,13 +33,12 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
        
 
         z.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
-        System.out.println(xmousebefore +" "+   ymousebefore+" " + xmouse + " "+ymouse);
-        LignesEntree ligne = new LignesEntree(xmousebefore, ymousebefore,xmouse,ymouse);
+        int[] ligne ={xmousebefore, ymousebefore,xmouse,ymouse};
         listecoordreelles.add(ligne);
 
-        for (LignesEntree l : listecoordreelles)
+        for (int[] l : listecoordreelles)
         {
-            z.drawLine(l.x1,l.y1,l.x2,l.y2);
+            z.drawLine(l[0],l[1],l[2],l[3]);
 
         }
         if (needclear)
