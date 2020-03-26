@@ -21,7 +21,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public PanneauEntree()
     {
-
+        needclear=true;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         listepoints = new LinkedList<Complexe>();
