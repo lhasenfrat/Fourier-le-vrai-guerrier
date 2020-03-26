@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import javax.swing.*;
+import java.util.Hashtable;
 
 
 public class Window extends JFrame implements ActionListener {
@@ -23,7 +24,7 @@ public class Window extends JFrame implements ActionListener {
         /*Fenetre principale*/
         int screenW= screenSize.width;
         int screenH= screenSize.height;
-        double c = (double)screenH/1080 ; //coef de grandissement
+        c = (double)screenH/1080 ; //coef de grandissement
 
         setLayout(null);
         setTitle("Projet guerrier- Fenetre principale");
@@ -53,11 +54,26 @@ public class Window extends JFrame implements ActionListener {
         buttonclear.setBounds((int)(200*c+100*c+200*c),(int)(c*(50+500+50)),(int)(200*c),(int)(75*c));
 
         /*Le curseur pour regler la precision*/ //à modifier en curseur après
-        curseurpreci = new JSlider();
+        curseurpreci = new JSlider(0,100,50);
+        curseurpreci.setMajorTickSpacing(25);
+        curseurpreci.setPaintTicks(true);
+
+
+        /*Autre info vers le curseur*/
         precitext = new JLabel();
         precitext.setText("PRECISION: ");
         precitext.setBounds((int)(c*(100+700+200+100+210)),(int)(c*(500+50+20)),(int)(c*250),(int)(c*25));
         curseurpreci.setBounds((int)(c*(100+700+200+100)),(int)(c*(50+500+50)),(int)(c*500),(int)(c*75));
+        // Add positions label in the slider
+        curseurpreci.setPaintLabels(true);
+        Hashtable position = new Hashtable();
+        position.put(0, new JLabel("0"));
+        position.put(25, new JLabel("25"));
+        position.put(50, new JLabel("50"));
+        position.put(75, new JLabel("75"));
+        position.put(100, new JLabel("100"));
+        curseurpreci.setLabelTable(position);
+
 
         /*Affichage de l'équation*/
         scroll= new JTextArea();
@@ -85,7 +101,11 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            panelshow.ligne= tFourier(paneldraw.listepoints, 20);
+            int nbrVect = paneldraw.listepoints.size(); //nbr de points du dessin dessiné
+            double precinum = (double)(curseurpreci.getValue())/(double)(100); //pourcentage de points par rapport à ceux du dessin dessiné
+            panelshow.ligne= tFourier(paneldraw.listepoints,(int)(precinum*nbrVect));
+            //System.out.println("nbr points : "+(int)(precinum*nbrVect));
+
 
         }
 
