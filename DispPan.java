@@ -50,7 +50,6 @@ public class DispPan extends JPanel implements ActionListener{
 			point1 = new Complexe(c.getRe() + point1.getRe(), c.getIm() + point1.getIm());
 		}
 		point1 = new Complexe(this.getWidth()/2 + (int)(dessin.getFirst().getRe()), this.getHeight()/2 + (int)(dessin.getFirst().getIm()));
-		g.setColor(Color.red);
 		for(Complexe c : dessin){
 
 			g.drawLine((int)(point1.getRe()), (int)(point1.getIm()), (int)(c.getRe() + this.getWidth()/2), (int)(c.getIm()) + this.getHeight()/2);
