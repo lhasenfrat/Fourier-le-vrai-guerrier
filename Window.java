@@ -34,7 +34,7 @@ public class Window extends JFrame implements ActionListener {
 
         /*Panel dessin*/
         paneldraw = new PanneauEntree();
-
+        paneldraw.setBackground(Color.white);
 
 
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
