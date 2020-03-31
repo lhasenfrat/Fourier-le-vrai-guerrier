@@ -175,8 +175,15 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            panelshow.ligne= tFourier(paneldraw.listepoints, curseurpreci.getValue());
-            scroll.setText("");
+            String texteCadre = "";
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.listepoints.size() - 100);
+            int i = 0;		//texte
+             for(Complexe c : panelshow.ligne){
+				texteCadre = texteCadre + c.getRe() + "exp(" + i + "t + " + c.getTheta() + ")" ;
+				i++;
+            }
+            scroll.setText(texteCadre);
+            panelshow.chrono.start();
 
         }
 

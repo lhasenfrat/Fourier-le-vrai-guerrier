@@ -6,26 +6,29 @@ import java.awt.Color;
 
 public class DispPan extends JPanel implements ActionListener{
     public LinkedList<Complexe> ligne;
-    private Timer chrono;
+    public Timer chrono;
     public LinkedList<Complexe> dessin;
     private double angleRot;
 
-	public DispPan(LinkedList<Complexe> d){
-		this.ligne = d;
-		this.dessin = new LinkedList<Complexe>();
-		angleRot = 2*Math.PI/100;
-		chrono = new Timer(50, this);
-		chrono.start();
-	}
 	public DispPan(){
 		this.ligne = new LinkedList<Complexe>();
 		this.dessin = new LinkedList<Complexe>();
-		angleRot = 2*Math.PI/100;
-		chrono = new Timer(50, this);
-		chrono.start();
+		angleRot = 2*Math.PI/10000;
+		chrono = new Timer(5, this);
+		chrono.start(); 
+		try { 
+			Thread.sleep(100);
+		}
+		catch (InterruptedException exception) {
+			exception.printStackTrace();
+		}
+		chrono.stop();
+
+		
 	}
 
     public void actionPerformed(ActionEvent k){
+		for(int j = 0 ; j < 100 ; j++){
         int i = 0;
         Complexe lineEnd = new Complexe(0,0);
         for(Complexe c : ligne){
@@ -35,6 +38,7 @@ public class DispPan extends JPanel implements ActionListener{
         }
         dessin.add(lineEnd);
         this.repaint();
+		}
     }
 
     public void paint(Graphics h){
