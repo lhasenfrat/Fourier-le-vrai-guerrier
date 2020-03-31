@@ -178,9 +178,9 @@ public class Window extends JFrame implements ActionListener {
             String texteCadre = "";
             panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.listepoints.size() - 100);
             int i = 0;		//texte
-             for(Complexe c : panelshow.ligne){
-				texteCadre = texteCadre + c.getRe() + "exp(" + i + "t + " + c.getTheta() + ")" ;
-				i++;
+            for(Complex c : panelshow.ligne){
+                texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
+                i++;
             }
             scroll.setText(texteCadre);
             panelshow.chrono.start();
@@ -188,75 +188,76 @@ public class Window extends JFrame implements ActionListener {
         }
 
         if ((e.getSource() == buttonclear)) {
-            panelshow.ligne = new LinkedList<Complexe>();
-            panelshow.dessin = new LinkedList<Complexe>();
+            panelshow.ligne = new LinkedList<Complex>();
+            panelshow.dessin = new LinkedList<Complex>();
 
         }
 
         if (e.getSource()==boutoncarre) {
-            panelshow.ligne = new LinkedList<Complexe>();
-            panelshow.dessin = new LinkedList<Complexe>();
-            LinkedList<Complexe> listeDepart=new LinkedList<Complexe>();
+            panelshow.ligne = new LinkedList<Complex>();
+            panelshow.dessin = new LinkedList<Complex>();
+            LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
             for (int i = 0 ; i< 100; i++)										// test avec un carré
-                listeDepart.add(new Complexe(100,i));
+                listeDepart.add(new Complex(100,i));
 
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe(100 - i,100));
+                listeDepart.add(new Complex(100 - i,100));
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe(-100,100-i));
+                listeDepart.add(new Complex(-100,100-i));
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe(i - 100,-100));
+                listeDepart.add(new Complex(i - 100,-100));
             for (int i = 0 ; i< 100; i++)
-                listeDepart.add(new Complexe(100,i - 100));
+                listeDepart.add(new Complex(100,i - 100));
             paneldraw.listepoints=listeDepart;
 
             panelshow.ligne= tFourier(paneldraw.listepoints, curseurpreci.getValue());
 
 
         } else  if (e.getSource()==boutonhexa) {
-            panelshow.ligne = new LinkedList<Complexe>();
-            panelshow.dessin = new LinkedList<Complexe>();
+            panelshow.ligne = new LinkedList<Complex>();
+            panelshow.dessin = new LinkedList<Complex>();
 
         } else  if (e.getSource()==boutonlosange) {
-            panelshow.ligne = new LinkedList<Complexe>();
-            panelshow.dessin = new LinkedList<Complexe>();
-            LinkedList<Complexe> listeDepart=new LinkedList<Complexe>();
+            panelshow.ligne = new LinkedList<Complex>();
+            panelshow.dessin = new LinkedList<Complex>();
+            LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
             for (int i = 0 ; i< 200; i++)										// test avec un carré
-                listeDepart.add(new Complexe(200-i,i));
+                listeDepart.add(new Complex(200-i,i));
 
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe( - i,200-i));
+                listeDepart.add(new Complex( - i,200-i));
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe(-200+i,-i));
+                listeDepart.add(new Complex(-200+i,-i));
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complexe(i,-200+i));
+                listeDepart.add(new Complex(i,-200+i));
 
             paneldraw.listepoints=listeDepart;
 
             panelshow.ligne= tFourier(paneldraw.listepoints, curseurpreci.getValue());
 
         } else  if (e.getSource()==boutonrandom) {
-            panelshow.ligne = new LinkedList<Complexe>();
-            panelshow.dessin = new LinkedList<Complexe>();
+            panelshow.ligne = new LinkedList<Complex>();
+            panelshow.dessin = new LinkedList<Complex>();
 
         }
     }
 
-    public static LinkedList<Complexe> tFourier(LinkedList<Complexe> l, int nbVect){	//mÃ©thode qui effectue la transformÃ©e de fourier
+    public static LinkedList<Complex> tFourier(LinkedList<Complex> l, int nbVect){	//mÃ©thode qui effectue la transformÃ©e de fourier
         double nbPoints = l.size();
-        Complexe integrale = new Complexe(0,0);
-        LinkedList<Complexe> renvoi = new LinkedList<Complexe>();
+        Complex integrale = new Complex(0,0);
+        LinkedList<Complex> renvoi = new LinkedList<Complex>();
         for(int i = 0 ; i < nbVect ; i++){
-            integrale = new Complexe(0,0);
+            integrale = new Complex(0,0);
             double t = 0;
-            for(Complexe c : l){
-                Complexe sc = new Complexe(1, c.getRho(), c.getTheta() - (i*Math.PI*2*t/nbPoints));
-                integrale.sommeV1(sc);
+            for(Complex c : l){
+                double ctheta=c.theta() - (i*Math.PI*2*t/nbPoints);
+                Complex sc = new Complex(Math.cos(ctheta)*c.rho(),Math.sin(ctheta)*c.rho());
+                integrale=integrale.plus(sc);
                 t++;
             }
-            integrale.setRho(integrale.getRho()/(nbPoints));
+            integrale.setRho(integrale.rho()/(nbPoints));
             renvoi.add(integrale);
         }
         return(renvoi);
