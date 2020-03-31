@@ -41,7 +41,14 @@ public class TemplateButton extends JButton {
             g.drawRect(getWidth()/4,getHeight()/4,getWidth()/2,getHeight()/2);
         } else if(hexa)
         {
-            g.drawOval(getWidth()/4,getHeight()/4,getWidth()/2,getHeight()/2);
+            g.drawLine(getWidth()*5/16,getHeight()/4,getWidth()*11/16,getHeight()/4);
+            g.drawLine(getWidth()*11/16,getHeight()/4, getWidth()*16/20,getHeight()/2);
+            g.drawLine(getWidth()*16/20,getHeight()/2,getWidth()*11/16,getHeight()*3/4);
+            g.drawLine(getWidth()*11/16,getHeight()*3/4,getWidth()*5/16,getHeight()*3/4);
+            g.drawLine(getWidth()*5/16,getHeight()*3/4,getWidth()*1/5,getHeight()/2);
+            g.drawLine(getWidth()*1/5,getHeight()/2,getWidth()*5/16,getHeight()/4);
+
+            // g.drawOval(getWidth()/4,getHeight()/4,getWidth()/2,getHeight()/2);
         } else if(losange)
         {
             g.drawLine(getWidth()/2,getHeight()/4,3*getWidth()/4,getHeight()/2);
