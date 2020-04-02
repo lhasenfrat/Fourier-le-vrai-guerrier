@@ -264,7 +264,7 @@ public class Window extends JFrame implements ActionListener {
         return(renvoi);
     }
 
-    public static int logslider(int position) {
+    public static int logslider(int position) { //the curseur est de 0 à 100, on fait une échelle logarithmique
         // entre 0 et 100
         var minp = 0;
         var maxp = 100;
