@@ -25,13 +25,14 @@ public class Window extends JFrame implements ActionListener {
     TemplateButton boutonhexa;
     TemplateButton boutonlosange;
     TemplateButton boutonrandom;
+    int puissancemax;
 
 
     double c;
 
     public Window(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
+        puissancemax=2048;
         /*Fenetre principale*/
         int screenW= screenSize.width;
         int screenH= screenSize.height;
@@ -122,7 +123,7 @@ public class Window extends JFrame implements ActionListener {
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
         precitext = new JLabel();
-        precitext.setText("362 Vecteurs");
+        precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" Vecteurs");
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
@@ -163,7 +164,7 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(131072)/100)))+" Vecteurs");
+                precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" Vecteurs");
 
             }
         });
@@ -178,7 +179,7 @@ public class Window extends JFrame implements ActionListener {
         if ((e.getSource() == buttonstart)) {
 
             String texteCadre = "";
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(Math.exp(curseurpreci.getValue() * Math.log(131072)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
             int i = 0;		//texte
             for(Complex c : panelshow.ligne){
                 texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
@@ -213,12 +214,36 @@ public class Window extends JFrame implements ActionListener {
                 listeDepart.add(new Complex(100,i - 100));
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne= tFourier(paneldraw.listepoints, curseurpreci.getValue());
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
 
 
         } else  if (e.getSource()==boutonhexa) {
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
+            LinkedList<Complex> listeDepart=new LinkedList<Complex>();
+
+            for (int i = 0 ; i< 100; i++)										// test avec un carré
+                listeDepart.add(new Complex(100-i/2,i));
+
+            for (int i = 0 ; i< 100; i++)
+                listeDepart.add(new Complex(50-i,100));
+
+            for (int i = 0 ; i< 100; i++)
+                listeDepart.add(new Complex(-50 - (i/2),100 -i));
+
+
+            for (int i = 0 ; i< 100; i++)
+                listeDepart.add(new Complex(-100+i/2,-i));
+
+            for (int i = 0 ; i< 100; i++)
+                listeDepart.add(new Complex(-50+i,-100));
+            for (int i = 0 ; i< 100; i++)
+                listeDepart.add(new Complex(50+i/2,-100+i));
+
+            paneldraw.listepoints=listeDepart;
+
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+
 
         } else  if (e.getSource()==boutonlosange) {
             panelshow.ligne = new LinkedList<Complex>();
@@ -237,11 +262,37 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne= tFourier(paneldraw.listepoints, curseurpreci.getValue());
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
 
         } else  if (e.getSource()==boutonrandom) {
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
+            LinkedList<Complex> listeDepart=new LinkedList<Complex>();
+            int random =(int) Math.random()*3;
+            if (random==0) {
+                for (int i = 0 ; i< 200; i++)										// test avec un carré
+                    listeDepart.add(new Complex(200,-100+i));
+
+                for (int i = 0 ; i< 400; i++)
+                    listeDepart.add(new Complex( 200- i,100-i/2));
+                for (int i = 0 ; i< 400; i++)
+                    listeDepart.add(new Complex(-200+i,-100));
+
+
+            } else if (random==1) {
+
+
+            } else if (random==2) {
+
+            } else {
+
+            }
+
+            paneldraw.listepoints=listeDepart;
+
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+
+
 
         }
     }

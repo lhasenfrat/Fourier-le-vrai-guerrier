@@ -85,21 +85,25 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
         ymousebefore=(int)(listepoints.getLast().im() + this.getHeight() / 2);
         xmouse=(int)(listepoints.getFirst().re() + this.getWidth() / 2);
         ymouse=(int)(listepoints.getFirst().im() + this.getHeight() / 2);
-        double xvector = (xmouse-xmousebefore)/1000.0;
-        double yvector = (ymouse-ymousebefore)/1000.0;
+        double xvector = (xmouse-xmousebefore);
+        double yvector = (ymouse-ymousebefore);
+        double norme= Math.sqrt(xvector*xvector+yvector*yvector);
+        xvector=xvector/norme;
+        yvector=yvector/norme;
         int xcurrent=xmousebefore;
         int ycurrent=ymousebefore;
-        for(int i=0;i<1000;i++)
+
+        for(int i=0;i<(int)(norme);i++)
         {
             listepoints.add(new Complex(xcurrent +i*xvector - this.getWidth() / 2, ycurrent + i*yvector- this.getHeight() / 2));
 
 
         }
+/*
         while(listepoints.size()<3000){
             listepoints.add(new Complex(xmouse - this.getWidth() / 2, ymouse- this.getHeight() / 2));
         }
-
-
+*/
         this.repaint();
     }
     public void mouseDragged(MouseEvent e)
@@ -113,6 +117,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
         if (xmouse!=0 && ymouse!=0 && xmousebefore!=0 && ymousebefore!=0)
         {
             listepoints.add(new Complex(xmouse - this.getWidth() / 2, ymouse - this.getHeight() / 2));
+
             this.repaint();
         }
 
