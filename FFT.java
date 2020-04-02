@@ -167,35 +167,7 @@ public class FFT {
         System.out.println();
     }
     
-    public static void main(String[] args){
-		Complex[] tableauDep = new  Complex[16384];
-		double teta = 0;
-		for (int i = 0 ; i < 1024 ; i++)
-			tableauDep[i] = new Complex(128,i/8.0);		
-		for (int i = 0 ; i < 2048 ; i++)
-			tableauDep[i + 1024] = new Complex(128  - i/8.0,128);	
-		for (int i = 0 ; i < 2048 ; i++)
-			tableauDep[i + 3072] = new Complex(-128,128 - i/8.0);	
-		for (int i = 0 ; i < 2048 ; i++)
-			tableauDep[i + 5120] = new Complex(i/8.0 - 128,-128);
-		for (int i = 0 ; i < 1024 ; i++)
-			tableauDep[i + 7168] = new Complex(128,i/8.0 - 128);
-		for (int i = 0 ; i < 8192 ; i++)
-			tableauDep[i + 8192] = new Complex(0, 0);
-				
-		LinkedList<Complexe> listeDep = new LinkedList<Complexe>();
-        for(int i = 0 ; i<16384 ; i++){
-			listeDep.add(new Complexe(tableauDep[i].re(), tableauDep[i].im()));
-		}
-		
-		Complex[] tableauFin = fft(tableauDep); 	
-        LinkedList<Complexe> listeFin = new LinkedList<Complexe>();
-        for(int i = 0 ; i<tableauDep.length ; i++){									// test avec un cercle
-			listeFin.add(new Complexe(tableauFin[i].re(), tableauFin[i].im()));
-		}		
-		FenetreTest f = new FenetreTest(listeFin, listeDep);				//On affiche l'animation de sortie 
-		f.setVisible(true);
-    }
+
 
 }
 

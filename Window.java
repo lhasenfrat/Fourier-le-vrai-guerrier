@@ -122,7 +122,7 @@ public class Window extends JFrame implements ActionListener {
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
         precitext = new JLabel();
-        precitext.setText("Precision : 50");
+        precitext.setText("362 Vecteurs");
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
@@ -163,7 +163,8 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText("Precision : " + String.valueOf(logslider(curseurpreci.getValue())));
+                precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(131072)/100)))+" Vecteurs");
+
             }
         });
 
@@ -175,9 +176,9 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            System.out.println(logslider(curseurpreci.getValue()));
+
             String texteCadre = "";
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.listepoints.size() - 100);
+            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(Math.exp(curseurpreci.getValue() * Math.log(131072)/100)));
             int i = 0;		//texte
             for(Complex c : panelshow.ligne){
                 texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
@@ -264,20 +265,7 @@ public class Window extends JFrame implements ActionListener {
         return(renvoi);
     }
 
-    public static int logslider(int position) { //the curseur est de 0 à 100, on fait une échelle logarithmique
-        // entre 0 et 100
-        var minp = 0;
-        var maxp = 100;
 
-        // le logarithmique entre 0 et 131072
-        var minv = Math.log(1);
-        var maxv = Math.log(131073);
-
-        // calcule le coef
-        var scale = (maxv-minv) / (maxp-minp);
-
-        return (int)Math.exp(minv + scale*(position-minp));
-    }
 
 
 
