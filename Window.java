@@ -53,19 +53,19 @@ public class Window extends JFrame implements ActionListener {
         /*Panel affichage*/
         panelshow = new DispPan();
         panelshow.setBackground(Color.white);
-        panelshow.setBounds((int)(c*(100+200+700)),(int)(50*c),(int)(700*c),(int)(500*c));
+        panelshow.setBounds((int)(c*(1000)),(int)(50*c),(int)(700*c),(int)(500*c));
 
         /*Les boutons*/
         buttonstart = new JButton();
         buttonstart.setText("Start");
-        buttonstart.setBounds((int)(200*c),(int)(c*(50+500+50)),(int)(200*c),(int)(75*c));
+        buttonstart.setBounds((int)(200*c),(int)(c*(600)),(int)(200*c),(int)(75*c));
         buttonstart.setBackground(Color.green);
         buttonstart.setFont(new Font("Arial",Font.BOLD,20));
         buttonstart.setBorder(BorderFactory.createLineBorder(Color.black, 5)); // Line Border + Thickness of the Border
 
         buttonclear = new JButton();
         buttonclear.setText("Clear");
-        buttonclear.setBounds((int)(200*c+100*c+200*c),(int)(c*(50+500+50)),(int)(200*c),(int)(75*c));
+        buttonclear.setBounds((int)(c*500),(int)(c*(600)),(int)(200*c),(int)(75*c));
         buttonclear.setBackground(Color.red);
         buttonclear.setFont(new Font("Arial",Font.BOLD,20));
         buttonclear.setBorder(BorderFactory.createLineBorder(Color.black, 5));
@@ -88,7 +88,7 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci = new JSlider(0,100);
         curseurpreci.setMajorTickSpacing(25);
         curseurpreci.setMinorTickSpacing(5);
-        curseurpreci.setBounds((int)(c*(100+700+200+100)),(int)(c*(50+500+50)),(int)(c*500),(int)(c*75));
+        curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Ajout position label sur glisseur*/
@@ -108,7 +108,7 @@ public class Window extends JFrame implements ActionListener {
         scroll.setFont(new Font("Arial",Font.ITALIC,30)); //Texte affichÃ© Ã  l'initialisation
 
         scrollequation = new JScrollPane(scroll);
-        scrollequation.setBounds((int)(c*(100)),(int)(c*(50+500+50+75+50)),(int)(c*1600),(int)(c*75));
+        scrollequation.setBounds((int)(c*(100)),(int)(c*(725)),(int)(c*1600),(int)(c*75));
         scrollequation.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Les Labels*/
@@ -124,7 +124,7 @@ public class Window extends JFrame implements ActionListener {
         precitext = new JLabel();
         precitext.setText("Precision : 50");
         precitext.setFont(police);
-        precitext.setBounds((int)(c*(1250)),(int)(c*(500+50+20)),(int)(c*250),(int)(c*25));
+        precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
         logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png"));
         logo_INSA.setBounds(0,screenH-300,100,100);
@@ -163,7 +163,7 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText("Precision : " + String.valueOf(curseurpreci.getValue()));
+                precitext.setText("Precision : " + String.valueOf(logslider(curseurpreci.getValue())));
             }
         });
 
@@ -175,6 +175,7 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
+            System.out.println(logslider(curseurpreci.getValue()));
             String texteCadre = "";
             panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.listepoints.size() - 100);
             int i = 0;		//texte
@@ -262,5 +263,22 @@ public class Window extends JFrame implements ActionListener {
         }
         return(renvoi);
     }
+
+    public static int logslider(int position) {
+        // entre 0 et 100
+        var minp = 0;
+        var maxp = 100;
+
+        // le logarithmique entre 0 et 131072
+        var minv = Math.log(1);
+        var maxv = Math.log(131073);
+
+        // calcule le coef
+        var scale = (maxv-minv) / (maxp-minp);
+
+        return (int)Math.exp(minv + scale*(position-minp));
+    }
+
+
 
 }
