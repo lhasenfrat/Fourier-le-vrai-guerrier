@@ -33,6 +33,7 @@ public class Window extends JFrame implements ActionListener {
     public Window(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         puissancemax=2048;
+
         /*Fenetre principale*/
         int screenW= screenSize.width;
         int screenH= screenSize.height;
@@ -95,25 +96,25 @@ public class Window extends JFrame implements ActionListener {
         /*Ajout position label sur glisseur*/
         curseurpreci.setPaintLabels(true);
         Hashtable position = new Hashtable();
-        position.put(0,new JLabel("0"));
-        position.put(25,new JLabel("25"));
-        position.put(50,new JLabel("50"));
-        position.put(75,new JLabel("75"));
-        position.put(100,new JLabel("100"));
+        position.put(0,new JLabel("0%"));
+        position.put(25,new JLabel("25%"));
+        position.put(50,new JLabel("50%"));
+        position.put(75,new JLabel("75%"));
+        position.put(100,new JLabel("100%"));
         curseurpreci.setLabelTable(position);
         curseurpreci.setPaintTicks(true);
 
         /*Affichage de l'Ã©quation*/
         scroll= new JTextArea();
+        Font police = new Font("Arial",Font.BOLD,20);; //Texte affichÃ© Ã  l'initialisation
+        scroll.setFont(police);
         scroll.setText("En attente...");
-        scroll.setFont(new Font("Arial",Font.ITALIC,30)); //Texte affichÃ© Ã  l'initialisation
 
         scrollequation = new JScrollPane(scroll);
-        scrollequation.setBounds((int)(c*(100)),(int)(c*(725)),(int)(c*1600),(int)(c*75));
+        scrollequation.setBounds((int)(c*(100)),(int)(c*(725)),(int)(c*1600),(int)(c*100));
         scrollequation.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Les Labels*/
-        Font police = new Font("Arial",Font.BOLD,20); //Police Label (Arial, taille 20)
         enter = new JLabel("Dessiner ici");
         enter.setFont(police);
         enter.setBounds((int)(350*c),(int)(1*c),(int)(500*c),(int)(50*c));
@@ -123,16 +124,17 @@ public class Window extends JFrame implements ActionListener {
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
         precitext = new JLabel();
-        precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" Vecteurs");
+        precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" vecteurs");
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
-        logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png"));
-        logo_INSA.setBounds(0,screenH-300,100,100);
+        logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
+        logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
 
         title_label = new JLabel("Projet guerrier : le dessin par Fourier");
-        title_label.setBounds(screenW-550,screenH-300,700,100);
-        title_label.setFont(new Font("Osaka",Font.ITALIC,25));
+        title_label.setBounds((int)(c*621),0,(int)(c*700),(int)(c*40));
+        title_label.setFont(new Font("Osaka",Font.BOLD,25));
+        title_label.setForeground(new Color (234,120,25));
 
         /*Ajout Ã  la fenetre principale*/
 
@@ -165,7 +167,6 @@ public class Window extends JFrame implements ActionListener {
             @Override
             public void stateChanged(ChangeEvent e) {
                 precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" Vecteurs");
-
             }
         });
 
@@ -177,15 +178,21 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-
-            String texteCadre = "";
+            String texteCadre = "Equation: "+"\n";
             panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            int a = 0;
             int i = 0;		//texte
             for(Complex c : panelshow.ligne){
                 texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
                 i++;
+                if (a<4){ a++;} // la loop pour sauter les lignes tous les 3 blocs
+                if (a==3){
+                    texteCadre+= "\n"; a=0;}
             }
+            Font font1 = new Font("SansSerif", Font.BOLD, 15);
+            scroll.setFont(font1);; //Texte affichÃ© Ã  l'initialisation
             scroll.setText(texteCadre);
+
             panelshow.chrono.start();
 
         }
@@ -315,6 +322,9 @@ public class Window extends JFrame implements ActionListener {
         }
         return(renvoi);
     }
+
+
+
 
 
 
