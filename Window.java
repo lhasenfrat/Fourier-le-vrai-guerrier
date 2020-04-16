@@ -122,7 +122,7 @@ public class Window extends JFrame implements ActionListener {
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
         logo_INSA = new JLabel(new ImageIcon("logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
+        logo_INSA.setBounds((int)(c*690),(int)(c*560),300,100);
 
         title_label = new JLabel("Projet guerrier : le dessin par Fourier");
         title_label.setBounds((int)(c*621),0,(int)(c*700),(int)(c*40));
