@@ -71,6 +71,12 @@ import java.util.Objects;
         public double theta() {return Math.atan2(im,re);}
         public double rho() {return Math.sqrt(Math.pow(re,2) + Math.pow(im,2));}
 
+        // return a / b
+        public Complex divides(Complex b) {
+            Complex a = this;
+            return a.times(b.reciprocal());
+        }
+
         public void rotate(double angle){
             double theta0=this.theta() + angle;
             double rho0=this.rho();
