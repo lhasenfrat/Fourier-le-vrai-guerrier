@@ -47,6 +47,22 @@ import java.util.Objects;
             return new Complex(real, imag);
         }
 
+        // return a new object whose value is (this * alpha)
+        public Complex scale(double alpha) {
+            return new Complex(alpha * re, alpha * im);
+        }
+
+        // return a new Complex object whose value is the conjugate of this
+        public Complex conjugate() {
+            return new Complex(re, -im);
+        }
+
+        // return a new Complex object whose value is the reciprocal of this
+        public Complex reciprocal() {
+            double scale = re*re + im*im;
+            return new Complex(re / scale, -im / scale);
+        }
+
         // return the real or imaginary part
         public double re() { return re; }
         public double im() { return im; }
@@ -68,6 +84,31 @@ import java.util.Objects;
             this.im = Math.sin(theta0)*rho;
         }
 
+
+        // return a new Complex object whose value is the complex exponential of this
+        public Complex exp() {
+            return new Complex(Math.exp(re) * Math.cos(im), Math.exp(re) * Math.sin(im));
+        }
+
+        // return a new Complex object whose value is the complex sine of this
+        public Complex sin() {
+            return new Complex(Math.sin(re) * Math.cosh(im), Math.cos(re) * Math.sinh(im));
+        }
+
+        // return a new Complex object whose value is the complex cosine of this
+        public Complex cos() {
+            return new Complex(Math.cos(re) * Math.cosh(im), -Math.sin(re) * Math.sinh(im));
+        }
+
+        // return a new Complex object whose value is the complex tangent of this
+        public Complex tan() {
+            return sin().divides(cos());
+        }
+
+
+
+
+
         // a static version of plus
         public static Complex plus(Complex a, Complex b) {
             double real = a.re + b.re;
@@ -83,7 +124,13 @@ import java.util.Objects;
             Complex that = (Complex) x;
             return (this.re == that.re) && (this.im == that.im);
         }
-        
+
+        // See Section 3.3.
+        public int hashCode() {
+            return Objects.hash(re, im);
+        }
+
+
 
     }
 
