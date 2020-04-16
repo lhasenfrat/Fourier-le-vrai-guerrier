@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -94,7 +96,14 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Ajout position label sur glisseur*/
-
+        curseurpreci.setPaintLabels(true);
+        Hashtable position = new Hashtable();
+        position.put(0,new JLabel("0%"));
+        position.put(25,new JLabel("25%"));
+        position.put(50,new JLabel("50%"));
+        position.put(75,new JLabel("75%"));
+        position.put(100,new JLabel("100%"));
+        curseurpreci.setLabelTable(position);
         curseurpreci.setPaintTicks(true);
 
         /*Affichage de l'Ã©quation*/
@@ -121,8 +130,8 @@ public class Window extends JFrame implements ActionListener {
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
-        logo_INSA = new JLabel(new ImageIcon("logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*690),(int)(c*560),300,100);
+        logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
+        logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
 
         title_label = new JLabel("Projet guerrier : le dessin par Fourier");
         title_label.setBounds((int)(c*621),0,(int)(c*700),(int)(c*40));
@@ -171,9 +180,8 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            panelshow.dessin = new LinkedList<Complex>();
             String texteCadre = "Equation: "+"\n";
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
             int a = 0;
             int i = 0;		//texte
             for(Complex c : panelshow.ligne){
@@ -188,7 +196,6 @@ public class Window extends JFrame implements ActionListener {
             scroll.setText(texteCadre);
 
             panelshow.chrono.start();
-
 
         }
 
@@ -216,7 +223,7 @@ public class Window extends JFrame implements ActionListener {
                 listeDepart.add(new Complex(100,i - 100));
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
 
 
         } else  if (e.getSource()==boutonhexa) {
@@ -233,7 +240,6 @@ public class Window extends JFrame implements ActionListener {
             for (int i = 0 ; i< 100; i++)
                 listeDepart.add(new Complex(-50 - (i/2),100 -i));
 
-
             for (int i = 0 ; i< 100; i++)
                 listeDepart.add(new Complex(-100+i/2,-i));
 
@@ -242,9 +248,10 @@ public class Window extends JFrame implements ActionListener {
             for (int i = 0 ; i< 100; i++)
                 listeDepart.add(new Complex(50+i/2,-100+i));
 
+
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
 
 
         } else  if (e.getSource()==boutonlosange) {
@@ -264,7 +271,7 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
 
         } else  if (e.getSource()==boutonrandom) {
             panelshow.ligne = new LinkedList<Complex>();
@@ -274,9 +281,8 @@ public class Window extends JFrame implements ActionListener {
             if (random==0) {
                 for (int i = 0 ; i< 200; i++)										// test avec un carré
                     listeDepart.add(new Complex(200,-100+i));
-
                 for (int i = 0 ; i< 400; i++)
-                    listeDepart.add(new Complex( 200- i,100-i/2));
+                    listeDepart.add(new Complex(200- i,100-i/2));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(-200+i,-100));
 
@@ -292,37 +298,42 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
+            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
 
 
 
         }
     }
 
-    public static LinkedList<Complex> tFourier(LinkedList<Complex> l, int nbVect){	//mÃ©thode qui effectue la transformÃ©e de fourier
-        double nbPoints = l.size();
-        Complex integrale = new Complex(0,0);
-        LinkedList<Complex> renvoi = new LinkedList<Complex>();
-        for(int i = 0 ; i < nbVect ; i++){
-            integrale = new Complex(0,0);
-            double t = 0;
-            for(Complex c : l){
-                double ctheta=c.theta() - (i*Math.PI*2*t/nbPoints);
-                Complex sc = new Complex(Math.cos(ctheta)*c.rho(),Math.sin(ctheta)*c.rho());
-                integrale=integrale.plus(sc);
-                t++;
-            }
-            integrale.setRho(integrale.rho()/(nbPoints));
-            renvoi.add(integrale);
+    public static LinkedList<Complex> tFourier(LinkedList<Complex> l, double w,double h){	//mÃ©thode qui effectue la transformÃ©e de fourier
+        //Conversion LikedList en tableau
+        Object[] objectArray = l.toArray();
+        Complex[] complexArray = new Complex[objectArray.length];
+        for(int i =0; i < complexArray.length; i++) {
+            complexArray[i] = (Complex) objectArray[i];
         }
-        return(renvoi);
+        if(complexArray.length < 1024){ //Valeur modifiable, mais doit rester puissance de 2
+            System.out.println("Taille entrée : " + l.size() + ". Pas puissance de 2. Conversion...");
+            Complex[] trans = new Complex[1024];
+            for(int i = 0; i<complexArray.length;i++)
+                trans[i]=complexArray[i];
+            for(int i = complexArray.length;i<trans.length;i++)
+                trans[i]= new Complex(w/2,h/2);
+            complexArray = trans;
+        }
+        //FFT
+        System.out.println("Taille du tableau : "+ complexArray.length);
+        Complex[] outArray = FFT.fft(complexArray);
+
+        //convert array to list
+        List<Complex> transList = new LinkedList<>(Arrays.asList(outArray));
+        LinkedList<Complex> listOut = new LinkedList<Complex>(transList);
+        //Enlève zéro inutile
+        for(int i =0;i<listOut.size();i++){
+            listOut.set(i,listOut.get(i).scale(0.000488));
+        }
+        System.out.println("Size de la liste sortie : " + listOut.size());
+        return (listOut);
+
     }
-
-
-
-
-
-
-
-
 }
