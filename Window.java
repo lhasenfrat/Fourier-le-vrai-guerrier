@@ -94,14 +94,7 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Ajout position label sur glisseur*/
-        curseurpreci.setPaintLabels(true);
-        Hashtable position = new Hashtable();
-        position.put(0,new JLabel("0%"));
-        position.put(25,new JLabel("25%"));
-        position.put(50,new JLabel("50%"));
-        position.put(75,new JLabel("75%"));
-        position.put(100,new JLabel("100%"));
-        curseurpreci.setLabelTable(position);
+
         curseurpreci.setPaintTicks(true);
 
         /*Affichage de l'Ã©quation*/
@@ -128,7 +121,7 @@ public class Window extends JFrame implements ActionListener {
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
 
-        logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
+        logo_INSA = new JLabel(new ImageIcon("logo_INSA.png")); //Placer la photo dans un folder Images!
         logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
 
         title_label = new JLabel("Projet guerrier : le dessin par Fourier");
@@ -178,6 +171,7 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
+            panelshow.dessin = new LinkedList<Complex>();
             String texteCadre = "Equation: "+"\n";
             panelshow.ligne = tFourier(paneldraw.listepoints,(int)(1+Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)));
             int a = 0;
@@ -194,6 +188,7 @@ public class Window extends JFrame implements ActionListener {
             scroll.setText(texteCadre);
 
             panelshow.chrono.start();
+
 
         }
 

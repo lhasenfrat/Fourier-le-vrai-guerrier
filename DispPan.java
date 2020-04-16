@@ -13,6 +13,7 @@ public class DispPan extends JPanel implements ActionListener{
     public DispPan(){
         this.ligne = new LinkedList<Complex>();
         this.dessin = new LinkedList<Complex>();
+
         angleRot = 2*Math.PI/10000;
         chrono = new Timer(5, this);
         chrono.start();
@@ -44,6 +45,7 @@ public class DispPan extends JPanel implements ActionListener{
     public void paint(Graphics h){
         h.setColor(Color.white);
         h.fillRect(0,0,getWidth(),getHeight());
+
         h.setColor(Color.black);
         Complex point1 = new Complex(this.getWidth()/2, this.getHeight()/2);	//on place le premier point au milieu du panneau pour tracer le premier trait
         for(Complex c : ligne){
@@ -60,6 +62,9 @@ public class DispPan extends JPanel implements ActionListener{
             h.drawLine((int)(point1.re()), (int)(point1.im()), (int)(c.re() + this.getWidth()/2), (int)(c.im()) + this.getHeight()/2);
             point1 = new Complex(c.re() + this.getWidth()/2, c.im() + this.getHeight()/2);
         }
+
+
+
     }
 
 

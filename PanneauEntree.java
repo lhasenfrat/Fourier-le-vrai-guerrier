@@ -11,7 +11,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     int ymouse;
     int xmousebefore;
     int ymousebefore;
-    boolean needclear=true;
+    boolean needclear;
     boolean ispressed=false;
     boolean ispressedbefore=false;
     LinkedList<Complex> listepoints ;
@@ -31,7 +31,9 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public void paint(Graphics z){
 
-
+        z.setColor(Color.WHITE);
+        z.fillRect(0,0,getWidth(),getHeight());
+        z.setColor(Color.black);
         z.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
         int[] ligne ={xmousebefore, ymousebefore,xmouse,ymouse};
         listecoordreelles.add(ligne);
