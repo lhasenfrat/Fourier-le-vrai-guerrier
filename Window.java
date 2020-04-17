@@ -181,7 +181,7 @@ public class Window extends JFrame implements ActionListener {
 
         if ((e.getSource() == buttonstart)) {
             String texteCadre = "Equation: "+"\n";
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
+            panelshow.ligne = tFourier(paneldraw.listepoints);
             int a = 0;
             int i = 0;		//texte
             for(Complex c : panelshow.ligne){
@@ -223,7 +223,7 @@ public class Window extends JFrame implements ActionListener {
                 listeDepart.add(new Complex(100,i - 100));
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
+            panelshow.ligne = tFourier(paneldraw.listepoints);
 
 
         } else  if (e.getSource()==boutonhexa) {
@@ -251,7 +251,7 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
+            panelshow.ligne = tFourier(paneldraw.listepoints);
 
 
         } else  if (e.getSource()==boutonlosange) {
@@ -271,7 +271,7 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
+            panelshow.ligne = tFourier(paneldraw.listepoints);
 
         } else  if (e.getSource()==boutonrandom) {
             panelshow.ligne = new LinkedList<Complex>();
@@ -298,29 +298,60 @@ public class Window extends JFrame implements ActionListener {
 
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints,paneldraw.getWidth(),paneldraw.getHeight());
+            panelshow.ligne = tFourier(paneldraw.listepoints);
 
 
 
         }
     }
 
-    public static LinkedList<Complex> tFourier(LinkedList<Complex> l, double w,double h){	//mÃ©thode qui effectue la transformÃ©e de fourier
+    public static LinkedList<Complex> tFourier(LinkedList<Complex> l){	//mÃ©thode qui effectue la transformÃ©e de fourier
+        double div=0.5;
         //Conversion LikedList en tableau
         Object[] objectArray = l.toArray();
         Complex[] complexArray = new Complex[objectArray.length];
         for(int i =0; i < complexArray.length; i++) {
             complexArray[i] = (Complex) objectArray[i];
         }
-        if(complexArray.length < 1024){ //Valeur modifiable, mais doit rester puissance de 2
-            System.out.println("Taille entrée : " + l.size() + ". Pas puissance de 2. Conversion...");
-            Complex[] trans = new Complex[1024];
-            for(int i = 0; i<complexArray.length;i++)
-                trans[i]=complexArray[i];
-            for(int i = complexArray.length;i<trans.length;i++)
-                trans[i]= new Complex(w/2,h/2);
-            complexArray = trans;
+
+        //COnvertie matrice en puissance de 2 (appel méthode changeTaille())
+        if(complexArray.length < 64) {
+            complexArray=changeTaille(complexArray, 64);
+            div = 1/64.;
         }
+        else if((64<complexArray.length) && (complexArray.length<128)){
+            complexArray=changeTaille(complexArray,128);
+            div = 1/128.;
+            }
+        else if((128<complexArray.length) && (complexArray.length<256)) {
+            complexArray=changeTaille(complexArray, 256);
+            div = 1/256.;
+        }
+        else if((256<complexArray.length) && (complexArray.length<512)) {
+            complexArray=changeTaille(complexArray, 512);
+            div = 1/512.;
+        }
+        else if((512<complexArray.length) && (complexArray.length<1024)) {
+            complexArray=changeTaille(complexArray, 1024);
+            div = 1/1024.;
+        }
+        else if((1024<complexArray.length) && (complexArray.length<2048)) {
+            complexArray=changeTaille(complexArray, 2048);
+            div = 1/2048.;
+        }
+        else if((2048<complexArray.length) && (complexArray.length<4096)) {
+            complexArray=changeTaille(complexArray, 4096);
+            div = 1/4096.;
+        }
+        else if((4096<complexArray.length) && (complexArray.length<8192)) {
+            complexArray=changeTaille(complexArray, 8192);
+            div = 1/8192.;
+        }
+        else if((8192<complexArray.length) && (complexArray.length<16384)) {
+            complexArray=changeTaille(complexArray, 16384);
+            div = 1/16384.;
+        }
+
         //FFT
         System.out.println("Taille du tableau : "+ complexArray.length);
         Complex[] outArray = FFT.fft(complexArray);
@@ -328,12 +359,24 @@ public class Window extends JFrame implements ActionListener {
         //convert array to list
         List<Complex> transList = new LinkedList<>(Arrays.asList(outArray));
         LinkedList<Complex> listOut = new LinkedList<Complex>(transList);
-        //Enlève zéro inutile
+
+        //Division pour normaliser
         for(int i =0;i<listOut.size();i++){
-            listOut.set(i,listOut.get(i).scale(0.000488));
+            listOut.set(i,listOut.get(i).scale(div));
         }
+        System.out.println("div= "+div);
         System.out.println("Size de la liste sortie : " + listOut.size());
         return (listOut);
 
+    }
+
+    public static Complex[] changeTaille(Complex[] entree,int taille){
+        System.out.println("Taille entrée : " + entree.length + ". Pas puissance de 2. Conversion...");
+        Complex[] trans = new Complex[taille];
+        for(int i = 0; i<entree.length;i++)
+            trans[i]=entree[i];
+        for(int i = entree.length;i<trans.length;i++)
+            trans[i]= entree[entree.length-1];
+        return trans;
     }
 }
