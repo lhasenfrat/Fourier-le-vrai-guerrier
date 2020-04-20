@@ -184,7 +184,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.ligne = tFourier(paneldraw.listepoints);
             int a = 0;
             int i = 0;		//texte
-            for(Complex c : panelshow.ligne){
+            for(Complex c : panelshow.ligne){ //JScroll equation
                 texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
                 i++;
                 if (a<4){ a++;} // la loop pour sauter les lignes tous les 3 blocs
@@ -210,17 +210,17 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 100; i++)										// test avec un carré
-                listeDepart.add(new Complex(100,i));
+            for (int i = 0 ; i< 200; i++)										// test avec un carré
+                listeDepart.add(new Complex(100,i/2));
 
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(100 - i,100));
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(-100,100-i));
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(i - 100,-100));
-            for (int i = 0 ; i< 100; i++)
-                listeDepart.add(new Complex(100,i - 100));
+            for (int i = 0 ; i< 306; i++)
+                listeDepart.add(new Complex(103 - i*2/3,100));
+            for (int i = 0 ; i< 206; i++)
+                listeDepart.add(new Complex(-100,106-i));
+            for (int i = 0 ; i< 206; i++)
+                listeDepart.add(new Complex(i - 106,-100));
+            for (int i = 0 ; i< 106; i++)
+                listeDepart.add(new Complex(100,i - 106));
             paneldraw.listepoints=listeDepart;
 
             panelshow.ligne = tFourier(paneldraw.listepoints);
@@ -231,7 +231,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 100; i++)										// test avec un carré
+            for (int i = 0 ; i< 100; i++)										// test avec un hexagone
                 listeDepart.add(new Complex(100-i/2,i));
 
             for (int i = 0 ; i< 100; i++)
@@ -259,7 +259,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 200; i++)										// test avec un carré
+            for (int i = 0 ; i< 200; i++)										// test avec un losange
                 listeDepart.add(new Complex(200-i,i));
 
             for (int i = 0 ; i< 200; i++)
@@ -279,7 +279,7 @@ public class Window extends JFrame implements ActionListener {
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             int random =(int) Math.random()*3;
             if (random==0) {
-                for (int i = 0 ; i< 200; i++)										// test avec un carré
+                for (int i = 0 ; i< 200; i++)										// test random 1
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(200- i,100-i/2));
@@ -306,16 +306,27 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public static LinkedList<Complex> tFourier(LinkedList<Complex> l){	//mÃ©thode qui effectue la transformÃ©e de fourier
-        double div=0.5;
+        double div=l.size();
+        div = 1./div;
         //Conversion LikedList en tableau
         Object[] objectArray = l.toArray();
         Complex[] complexArray = new Complex[objectArray.length];
         for(int i =0; i < complexArray.length; i++) {
             complexArray[i] = (Complex) objectArray[i];
         }
-
-        //COnvertie matrice en puissance de 2 (appel méthode changeTaille())
-        if(complexArray.length < 64) {
+        if(complexArray.length<8){
+            complexArray=changeTaille(complexArray, 8);
+            div = 1/8.;
+        }
+        else if(8<complexArray.length && complexArray.length < 16) {
+                    complexArray=changeTaille(complexArray, 16);
+                    div = 1/16.;
+        }
+        else if(16<complexArray.length && complexArray.length < 32) {
+            complexArray=changeTaille(complexArray, 32);
+            div = 1/32.;
+        }
+        else if(32<complexArray.length && complexArray.length < 64) {
             complexArray=changeTaille(complexArray, 64);
             div = 1/64.;
         }
