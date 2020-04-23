@@ -8,12 +8,12 @@ public class DispPan extends JPanel implements ActionListener{
     public LinkedList<Complex> ligne;
     public Timer chrono;
     public LinkedList<Complex> dessin;
-    private double angleRot;
+    public double angleRot;
 
     public DispPan(){
         this.ligne = new LinkedList<Complex>();
         this.dessin = new LinkedList<Complex>();
-        angleRot = 2*Math.PI/10000;
+        angleRot = 2*Math.PI/512;
         chrono = new Timer(5, this);
         chrono.start();
         try {

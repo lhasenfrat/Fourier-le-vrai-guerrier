@@ -89,9 +89,9 @@ public class Window extends JFrame implements ActionListener {
 
 
         /*Le curseur pour regler la precision*/
-        curseurpreci = new JSlider(0,100);
-        curseurpreci.setMajorTickSpacing(25);
-        curseurpreci.setMinorTickSpacing(5);
+        curseurpreci = new JSlider(0,500);
+        curseurpreci.setMajorTickSpacing(200);
+        curseurpreci.setMinorTickSpacing(100);
         curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
@@ -168,7 +168,11 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" Vecteurs");
+                precitext.setText(String.valueOf(curseurpreci.getValue()));
+                panelshow.angleRot = 2*Math.PI/curseurpreci.getValue();
+                System.out.println(panelshow.angleRot);
+                buttonclear.doClick();
+                buttonstart.doClick();
             }
         });
 
@@ -259,15 +263,15 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 200; i++)										// test avec un losange
-                listeDepart.add(new Complex(200-i,i));
+            for (int i = 0 ; i< 128; i++)										// test avec un losange
+                listeDepart.add(new Complex(128-i,i));
 
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex( - i,200-i));
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(-200+i,-i));
-            for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(i,-200+i));
+            for (int i = 0 ; i< 128; i++)
+                listeDepart.add(new Complex( - i,128-i));
+            for (int i = 0 ; i< 128; i++)
+                listeDepart.add(new Complex(-128+i,-i));
+            for (int i = 0 ; i< 128; i++)
+                listeDepart.add(new Complex(i,-128+i));
 
             paneldraw.listepoints=listeDepart;
 
