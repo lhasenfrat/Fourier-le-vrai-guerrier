@@ -172,7 +172,7 @@ public class Window extends JFrame implements ActionListener {
                 panelshow.angleRot = 2*Math.PI/Math.pow(2,curseurpreci.getValue());
                 System.out.println(panelshow.angleRot);
                 if(paneldraw.listepoints.size()!=0) {
-                    buttonclear.doClick();
+
                     buttonstart.doClick();
                 }
             }
@@ -190,6 +190,7 @@ public class Window extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this,"Liste de points vide");
             }
             else {
+                panelshow.dessin = new LinkedList<Complex>();
                 String texteCadre = "Equation: " + "\n";
                 panelshow.ligne = tFourier(paneldraw.listepoints);
                 int a = 0;
