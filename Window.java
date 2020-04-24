@@ -89,20 +89,18 @@ public class Window extends JFrame implements ActionListener {
 
 
         /*Le curseur pour regler la precision*/
-        curseurpreci = new JSlider(0,500);
-        curseurpreci.setMajorTickSpacing(200);
-        curseurpreci.setMinorTickSpacing(100);
+        curseurpreci = new JSlider(0,10);
+        curseurpreci.setMajorTickSpacing(5);
+        curseurpreci.setMinorTickSpacing(1);
         curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Ajout position label sur glisseur*/
         curseurpreci.setPaintLabels(true);
         Hashtable position = new Hashtable();
-        position.put(0,new JLabel("0%"));
-        position.put(25,new JLabel("25%"));
-        position.put(50,new JLabel("50%"));
-        position.put(75,new JLabel("75%"));
-        position.put(100,new JLabel("100%"));
+        position.put(0,new JLabel("1"));
+        position.put(5,new JLabel("32"));
+        position.put(10,new JLabel("1024"));
         curseurpreci.setLabelTable(position);
         curseurpreci.setPaintTicks(true);
 
@@ -126,9 +124,9 @@ public class Window extends JFrame implements ActionListener {
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
         precitext = new JLabel();
-        precitext.setText(String.valueOf((int)(Math.exp(curseurpreci.getValue() * Math.log(puissancemax)/100)))+" vecteurs");
+        precitext.setText("Angle de rotation : 2*PI/"+String.valueOf((int)(Math.pow(2,curseurpreci.getValue()))));
         precitext.setFont(police);
-        precitext.setBounds((int)(c*(1250)),(int)(c*(570)),(int)(c*250),(int)(c*25));
+        precitext.setBounds((int)(c*(1200)),(int)(c*(570)),(int)(c*500),(int)(c*25));
 
         logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
         logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
@@ -168,11 +166,13 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText(String.valueOf(curseurpreci.getValue()));
-                panelshow.angleRot = 2*Math.PI/curseurpreci.getValue();
+                precitext.setText("Angle de rotation : 2*PI/"+String.valueOf((int)(Math.pow(2,curseurpreci.getValue()))));
+                panelshow.angleRot = 2*Math.PI/Math.pow(2,curseurpreci.getValue());
                 System.out.println(panelshow.angleRot);
-                buttonclear.doClick();
-                buttonstart.doClick();
+                if(paneldraw.listepoints.size()!=0) {
+                    buttonclear.doClick();
+                    buttonstart.doClick();
+                }
             }
         });
 
@@ -184,29 +184,42 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
-            String texteCadre = "Equation: "+"\n";
-            panelshow.ligne = tFourier(paneldraw.listepoints);
-            int a = 0;
-            int i = 0;		//texte
-            for(Complex c : panelshow.ligne){ //JScroll equation
-                texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")" ;
-                i++;
-                if (a<4){ a++;} // la loop pour sauter les lignes tous les 3 blocs
-                if (a==3){
-                    texteCadre+= "\n"; a=0;}
+            if(paneldraw.listepoints.size()==0){
+                JOptionPane.showMessageDialog(this,"Liste de points vide");
             }
-            Font font1 = new Font("SansSerif", Font.BOLD, 15);
-            scroll.setFont(font1);; //Texte affichÃ© Ã  l'initialisation
-            scroll.setText(texteCadre);
+            else {
+                String texteCadre = "Equation: " + "\n";
+                panelshow.ligne = tFourier(paneldraw.listepoints);
+                int a = 0;
+                int i = 0;        //texte
+                for (Complex c : panelshow.ligne) { //JScroll equation
+                    texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")";
+                    i++;
+                    if (a < 4) {
+                        a++;
+                    } // la loop pour sauter les lignes tous les 3 blocs
+                    if (a == 3) {
+                        texteCadre += "\n";
+                        a = 0;
+                    }
+                }
+                Font font1 = new Font("SansSerif", Font.BOLD, 15);
+                scroll.setFont(font1);
+                ; //Texte affichÃ© Ã  l'initialisation
+                scroll.setText(texteCadre);
 
-            panelshow.chrono.start();
-
+                panelshow.chrono.start();
+            }
         }
 
         if ((e.getSource() == buttonclear)) {
-            panelshow.ligne = new LinkedList<Complex>();
-            panelshow.dessin = new LinkedList<Complex>();
-
+            if(paneldraw.listepoints.size()==0){
+                JOptionPane.showMessageDialog(this,"Liste de points déjà vide");
+            }
+            else {
+                panelshow.ligne = new LinkedList<Complex>();
+                panelshow.dessin = new LinkedList<Complex>();
+            }
         }
 
         if (e.getSource()==boutoncarre) {
