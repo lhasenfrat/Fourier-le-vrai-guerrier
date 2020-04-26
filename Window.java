@@ -76,16 +76,20 @@ public class Window extends JFrame implements ActionListener {
 
         boutoncarre = new TemplateButton("carre");
         boutoncarre.setBounds((int)(850*c),(int)(60*c),(int)(100*c),(int)(100*c));
+        boutoncarre.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         boutonhexa=new TemplateButton("hexa");
         boutonhexa.setBounds((int)(850*c),(int)(185*c),(int)(100*c),(int)(100*c));
+        boutonhexa.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         boutonlosange=new TemplateButton("losange");
         boutonlosange.setBounds((int)(850*c),(int)(310*c),(int)(100*c),(int)(100*c));
+        boutonlosange.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
 
         boutonrandom=new TemplateButton("formelouche");
         boutonrandom.setBounds((int)(850*c),(int)(435*c),(int)(100*c),(int)(100*c));
+        boutonrandom.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
 
         /*Le curseur pour regler la precision*/
@@ -129,9 +133,9 @@ public class Window extends JFrame implements ActionListener {
         precitext.setBounds((int)(c*(1200)),(int)(c*(570)),(int)(c*500),(int)(c*25));
 
         logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
+        logo_INSA.setBounds((int)(c*722),(int)(c*560),300,100);
         logo_INSA = new JLabel(new ImageIcon("logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*690),(int)(c*560),300,100);
+        logo_INSA.setBounds((int)(c*722),(int)(c*560),300,100);
 
         title_label = new JLabel("Projet guerrier : le dessin par Fourier");
         title_label.setBounds((int)(c*621),0,(int)(c*700),(int)(c*40));
@@ -339,8 +343,8 @@ public class Window extends JFrame implements ActionListener {
             div = 1/8.;
         }
         else if(8<complexArray.length && complexArray.length < 16) {
-                    complexArray=changeTaille(complexArray, 16);
-                    div = 1/16.;
+            complexArray=changeTaille(complexArray, 16);
+            div = 1/16.;
         }
         else if(16<complexArray.length && complexArray.length < 32) {
             complexArray=changeTaille(complexArray, 32);
@@ -353,7 +357,7 @@ public class Window extends JFrame implements ActionListener {
         else if((64<complexArray.length) && (complexArray.length<128)){
             complexArray=changeTaille(complexArray,128);
             div = 1/128.;
-            }
+        }
         else if((128<complexArray.length) && (complexArray.length<256)) {
             complexArray=changeTaille(complexArray, 256);
             div = 1/256.;
