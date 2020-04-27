@@ -9,6 +9,7 @@ public class TemplateButton extends JButton {
     public TemplateButton(String forme)
     {
 
+
         setFont(new Font("Arial",Font.BOLD,50/2));
 
         if (forme == "carre")
