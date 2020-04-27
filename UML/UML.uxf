@@ -1,0 +1,93 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>700</x><y>80</y><w>200</w><h>60</h></coordinates><panel_attributes>&lt;&lt;main&gt;&gt;
+--
+--
++main(a: String[]): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>110</y><w>330</w><h>260</h></coordinates><panel_attributes>&lt;&lt;PanneauEntree&gt;&gt;
+implements MouseMotionListener,MouseListener
+--
++xmouse: int
++ymouse: int
++xmousebefore: int
++ymousebefore: int
++needclear: boolean
++ispressed: boolean
++ispressedbefore: boolean
++listepoints: LinkedList&lt;Complex&gt; 
++listecoordreelles: LinkedList&lt;int[]&gt; 
++souris: MouseEvent
+--
++paint(g: Graphics): void 
++mousePressed(e: MouseEvent): void
++mouseReleased(e: MouseEvent): void
++mouseDragged(e: MouseEvent): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>190</y><w>380</w><h>370</h></coordinates><panel_attributes>&lt;&lt;Window&gt;&gt;
+implements ActionListener 
+--
++panelshow: DispPan 
++buttonstart: JButton
++buttonclear: JButton
++curseurpreci: JSlider
++scroll: JTextArea
++scrollequation: JScrollPane 
++precitext: JLabel 
++enter: JLabel 
++exit: JLabel 
++logo_INSA: JLabel 
++title_label: JLabel 
++paneldraw: PanneauEntree 
++boutoncarre: TemplateButton
++boutonhexa: TemplateButton
++boutonlosange: TemplateButton
++boutonrandom: TemplateButton
++puissancemax: int
++c: double
+--
++actionPerformed (e: ActionEvent): void
++tFourier(l: LinkedList&lt;Complex&gt;, nbVect: int): LinkedList&lt;Complex&gt; 
++changeTaille(entree:Complex[],taille:int): Complex[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>400</y><w>280</w><h>160</h></coordinates><panel_attributes>&lt;&lt;DispPan&gt;&gt;
+extends JPanel 
+implements ActionListener
+--
++ligne: LinkedList&lt;Complex&gt;
++chrono: Timer
++dessin: LinkedList&lt;Complex&gt;
++angleRot: double
+--
++actionPerformed(e: ActionEvent): void
++paint(g: Graphics): void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1030</x><y>190</y><w>280</w><h>130</h></coordinates><panel_attributes>&lt;&lt;TemplateButton&gt;&gt;
+--
++carre: boolean
++hexa: boolean
++losange: boolean
++formelouche: boolean
+--
++paintComponent(h: Graphics): void
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>590</y><w>240</w><h>230</h></coordinates><panel_attributes>&lt;&lt;Complex&gt;&gt;
+--
+-re: double
+-im: double
+--
++abs(): double
++plus(a: Complex): Complex
++minus(a: Complex): Complex
++times(a: Complex): Complex
++rotate(a: double): void
++plus(a: Complex,b: Complex): Complex
++equals(a: Complex): boolean
++scale(double a): Complex
++conjugate(): Complex
++reciprocal(): Complex
++hashCode(): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>0</y><w>200</w><h>40</h></coordinates><panel_attributes>&lt;&lt;JFrame&gt;&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1070</x><y>0</y><w>200</w><h>40</h></coordinates><panel_attributes>&lt;&lt;JButton&gt;&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>760</x><y>690</y><w>300</w><h>130</h></coordinates><panel_attributes>&lt;&lt;FFT&gt;&gt;
+--
+--
++fft (a: Complex[] ): Complex[]
++ifft (x: Complex[] ): Complex[]
++cconvolve(y:Complex[], y:Complex[]): Complex[]
++convolve(y:Complex[], y:Complex[]): Complex[]
++dft (x: Complex[] ): Complex[]
++show(a: Complex[], title: String): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>310</y><w>200</w><h>40</h></coordinates><panel_attributes>&lt;&lt;JPanel&gt;&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>0</y><w>200</w><h>40</h></coordinates><panel_attributes>&lt;&lt;MouseListener&gt;&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>790</x><y>130</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>230</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>430</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>210</y><w>90</w><h>400</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;380;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>500</y><w>70</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;90;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>267</x><y>550</y><w>440</w><h>190</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;170;420;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1170</x><y>30</y><w>30</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>910</x><y>30</y><w>30</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>340</y><w>190</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;140</additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>30</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>550</y><w>30</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>550</y><w>30</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>200</y><w>140</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;110;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>250</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>30;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>680</y><w>200</w><h>40</h></coordinates><panel_attributes>&lt;&lt;ActionListener&gt;&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>550</y><w>30</w><h>160</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;140;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>780</y><w>510</w><h>30</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;490;10</additional_attributes></element></diagram>
