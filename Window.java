@@ -139,7 +139,7 @@ public class Window extends JFrame implements ActionListener {
         logo_INSA.setBounds((int)(c*750),(int)(c*595),(int)(c*300),(int)(c*100));
 
         title_label = new JLabel("Dessin par série de Fourier");
-        title_label.setBounds((int)(c*675),0,(int)(c*700),(int)(c*40));
+        title_label.setBounds((int)(c*700),0,(int)(c*700),(int)(c*40));
         title_label.setFont(new Font("Osaka",Font.BOLD,25));
         title_label.setForeground(new Color (60,60,60));
 
@@ -346,8 +346,8 @@ public class Window extends JFrame implements ActionListener {
             div = 1/8.;
         }
         else if(8<complexArray.length && complexArray.length < 16) {
-                    complexArray=changeTaille(complexArray, 16);
-                    div = 1/16.;
+            complexArray=changeTaille(complexArray, 16);
+            div = 1/16.;
         }
         else if(16<complexArray.length && complexArray.length < 32) {
             complexArray=changeTaille(complexArray, 32);
@@ -360,7 +360,7 @@ public class Window extends JFrame implements ActionListener {
         else if((64<complexArray.length) && (complexArray.length<128)){
             complexArray=changeTaille(complexArray,128);
             div = 1/128.;
-            }
+        }
         else if((128<complexArray.length) && (complexArray.length<256)) {
             complexArray=changeTaille(complexArray, 256);
             div = 1/256.;
