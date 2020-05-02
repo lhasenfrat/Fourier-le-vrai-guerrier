@@ -314,7 +314,28 @@ public class Window extends JFrame implements ActionListener {
 
 
             } else if (random==1) {
+                
+                for (int i = 0 ; i< 100; i++)										// test étoile
+                    listeDepart.add(new Complex(i/2,-100+i));           //1
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(50+i,0));               //2
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(150-i*0.75,i*0.75));         //3
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(75+i/2,75+i));    //4
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(125-i*1.25,175-i/2));    //5
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(-i*1.25,125+i/2));    //6
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));    //8
+                for (int i = 0 ; i< 100; i++)
+                    listeDepart.add(new Complex(-150+i,0));    //9 + 10
 
+
+                paneldraw.listepoints=listeDepart;
+
+                panelshow.ligne = tFourier(paneldraw.listepoints);        
 
             } else if (random==2) {
 
