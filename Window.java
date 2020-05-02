@@ -131,10 +131,12 @@ public class Window extends JFrame implements ActionListener {
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1200)),(int)(c*(570)),(int)(c*500),(int)(c*25));
 
-        logo_INSA = new JLabel(new ImageIcon("./src/Images/logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*712),(int)(c*560),300,100);
-        logo_INSA = new JLabel(new ImageIcon("logo_INSA.png")); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*690),(int)(c*560),300,100);
+        ImageIcon logo_INSA0 = new ImageIcon("logo_INSA.png");
+        Image logoINSAim = logo_INSA0.getImage(); // transform into image pr changer la taille
+        Image logoRESIZE = logoINSAim.getScaledInstance((int)(c*270), (int)(c*70),  java.awt.Image.SCALE_SMOOTH); //changer la taille
+        ImageIcon logoRESIZEicon = new ImageIcon(logoRESIZE);  // transform it back
+        logo_INSA = new JLabel(logoRESIZEicon); //Placer la photo dans un folder Images!
+        logo_INSA.setBounds((int)(c*750),(int)(c*595),(int)(c*300),(int)(c*100));
 
         title_label = new JLabel("Dessin par série de Fourier");
         title_label.setBounds((int)(c*675),0,(int)(c*700),(int)(c*40));
