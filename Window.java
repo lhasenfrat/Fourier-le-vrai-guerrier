@@ -89,7 +89,7 @@ public class Window extends JFrame implements ActionListener {
 
 
         /*Le curseur pour regler la precision*/
-        curseurpreci = new JSlider(0,9);
+        curseurpreci = new JSlider(5,9);
         curseurpreci.setMajorTickSpacing(5);
         curseurpreci.setMinorTickSpacing(1);
         curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
@@ -98,10 +98,11 @@ public class Window extends JFrame implements ActionListener {
         /*Ajout position label sur glisseur*/
         curseurpreci.setPaintLabels(true);
         Hashtable position = new Hashtable();
-        position.put(0,new JLabel("1"));
-        position.put(3,new JLabel("8"));
-        position.put(6,new JLabel("64"));
-        position.put(9,new JLabel("512"));
+        position.put(5,new JLabel("5"));
+        position.put(6,new JLabel("4"));
+        position.put(7,new JLabel("3"));
+        position.put(8,new JLabel("2"));
+        position.put(9,new JLabel("1"));
 
         curseurpreci.setLabelTable(position);
         curseurpreci.setPaintTicks(true);
@@ -126,7 +127,7 @@ public class Window extends JFrame implements ActionListener {
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
         precitext = new JLabel();
-        precitext.setText("Angle de rotation : 2*PI/"+String.valueOf((int)(Math.pow(2,curseurpreci.getValue()))));
+        precitext.setText("Vitesse de l'animation : "+ String.valueOf(10 - curseurpreci.getValue()));
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1200)),(int)(c*(570)),(int)(c*500),(int)(c*25));
 
@@ -170,7 +171,7 @@ public class Window extends JFrame implements ActionListener {
         curseurpreci.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                precitext.setText("Angle de rotation : 2*PI/"+String.valueOf((int)(Math.pow(2,curseurpreci.getValue()))));
+                precitext.setText("Vitesse de l'animation : "+String.valueOf(10 - curseurpreci.getValue()));
                 panelshow.angleRot = 2*Math.PI/Math.pow(2,curseurpreci.getValue());
                 System.out.println(panelshow.angleRot);
                 if(paneldraw.listepoints.size()!=0) {

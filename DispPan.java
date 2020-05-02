@@ -9,15 +9,19 @@ public class DispPan extends JPanel implements ActionListener{
     public Timer chrono;
     public LinkedList<Complex> dessin;
     public double angleRot;
+    public int vitesse;
 
     public DispPan(){
         this.ligne = new LinkedList<Complex>();
         this.dessin = new LinkedList<Complex>();
         angleRot = 2*Math.PI/256;
-        chrono = new Timer(20, this);
+        vitesse = 20;
+        chrono = new Timer(vitesse, this);
+        
+        //on lance le chrono pendant un court instant sinon la fenêtre s'affiche mal
         chrono.start();
         try {
-            Thread.sleep(100);
+            Thread.sleep(100);					
         }
         catch (InterruptedException exception) {
             exception.printStackTrace();
@@ -28,7 +32,6 @@ public class DispPan extends JPanel implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent k){
-        for(int j = 0 ; j < 100 ; j++){
             int i = 0;
             Complex lineEnd = new Complex(0,0);
             for(Complex c : ligne){
@@ -38,13 +41,16 @@ public class DispPan extends JPanel implements ActionListener{
             }
             dessin.add(lineEnd);
             this.repaint();
-        }
     }
 
     public void paint(Graphics h){
+		
+		//on efface l'ecran
         h.setColor(Color.white);
         h.fillRect(0,0,getWidth(),getHeight());
-        //h.setColor(Color.black);
+        
+        //on trace les vecteurs en noir
+        h.setColor(Color.black);
         Complex point1 = new Complex(this.getWidth()/2, this.getHeight()/2);	//on place le premier point au milieu du panneau pour tracer le premier trait
         for(Complex c : ligne){
             h.drawLine((int)(point1.re()), (int)(point1.im()), (int)(c.re() + point1.re()), (int)(c.im() + point1.im()));
@@ -52,8 +58,10 @@ public class DispPan extends JPanel implements ActionListener{
         }
         point1 = new Complex(this.getWidth()/2 + (int)(dessin.getFirst().re()), this.getHeight()/2 + (int)(dessin.getFirst().im()));
         Complex point0 = new Complex(this.getWidth()/2 + (int)(dessin.getFirst().re()), this.getHeight()/2 + (int)(dessin.getFirst().im()));
+        
+        //on affiche le tracé en rouge
         for(Complex c : dessin){
-            h.setColor(Color.red);
+			h.setColor(Color.red);
             if (point1.equals(point0)) {
                 h.setColor(Color.white); // pour enlever le premier trait rouge qui connecte avec le milieu
             }
