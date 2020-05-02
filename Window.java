@@ -118,7 +118,7 @@ public class Window extends JFrame implements ActionListener {
         scrollequation.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Les Labels*/
-        enter = new JLabel("Dessiner ici");
+        enter = new JLabel("Dessinez ici");
         enter.setFont(police);
         enter.setBounds((int)(350*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
