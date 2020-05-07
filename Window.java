@@ -307,7 +307,7 @@ public class Window extends JFrame implements ActionListener {
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             int random =(int) (Math.random()*2);
             if (random==0) {
-                for (int i = 0 ; i< 200; i++)  // template d'une figure aléatoire
+                for (int i = 0 ; i< 200; i++)               // template d'un triange rectangle
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(200- i,100-i/2));
@@ -349,7 +349,7 @@ public class Window extends JFrame implements ActionListener {
         double div=l.size();
         div = 1./div;
 
-        /*Conversion LinkedList en tableau: */
+        /*Conversion LinkedList en tableau de taille "puissance 2": */
         Object[] objectArray = l.toArray();
         Complex[] complexArray = new Complex[objectArray.length];
         for(int i =0; i < complexArray.length; i++) {
@@ -424,12 +424,14 @@ public class Window extends JFrame implements ActionListener {
 
     }
 
-    public static Complex[] changeTaille(Complex[] entree,int taille){ //méthode pour changer la taille du tableau
+    /*Méthode changement de taille*/
+    
+    public static Complex[] changeTaille(Complex[] entree,int taille){
         System.out.println("Taille entrée : " + entree.length + ". Pas puissance de 2. Conversion...");
         Complex[] trans = new Complex[taille];
         for(int i = 0; i<entree.length;i++)
             trans[i]=entree[i];
-        for(int i = entree.length;i<trans.length;i++)
+        for(int i = entree.length;i<trans.length;i++) //Rajoute le dernier point jusqu'à atteindre une puissance de 2
             trans[i]= entree[entree.length-1];
         return trans;
     }
