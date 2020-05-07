@@ -7,10 +7,12 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.text.DecimalFormat;
 
 
 public class Window extends JFrame implements ActionListener {
 
+    /*Attributs:*/
     DispPan panelshow;
     JButton buttonstart;
     JButton buttonclear;
@@ -27,19 +29,15 @@ public class Window extends JFrame implements ActionListener {
     TemplateButton boutonhexa;
     TemplateButton boutonlosange;
     TemplateButton boutonrandom;
-    int puissancemax;
-
-
     double c;
 
     public Window(){
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        puissancemax=2048;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //obtenir la taille de l'écran de l'utilisateur
 
-        /*Fenetre principale*/
+        /*Fenetre principale:*/
         int screenW= screenSize.width;
         int screenH= screenSize.height;
-        double c = (double)screenH/1080 ; //coef de grandissement
+        double c = (double)screenH/1080 ; //coef de grandissement: Taille_écran/Taille_JFrame
 
         setLayout(null);
         setTitle("Dessin par série de Fourier- Fenetre principale");
@@ -50,100 +48,102 @@ public class Window extends JFrame implements ActionListener {
         setBackground(Color.MAGENTA);
         getContentPane().setBackground(Color.gray);
 
-        /*Panel dessin*/
+        /*Panel dessin (où dessine l'utilisateur):*/
         paneldraw = new PanneauEntree();
         paneldraw.setBounds((int)(100*c),(int)(50*c),(int)(700*c),(int)(500*c));
 
-        /*Panel affichage*/
+        /*Panel affichage (avec animation):*/
         panelshow = new DispPan();
         panelshow.setBackground(Color.white);
         panelshow.setBounds((int)(c*(1000)),(int)(50*c),(int)(700*c),(int)(500*c));
 
-        /*Les boutons*/
-        buttonstart = new JButton();
+        /*Les boutons de Templates:*/
+        buttonstart = new JButton(); //Bouton "START"
         buttonstart.setText("Start");
         buttonstart.setBounds((int)(200*c),(int)(c*(600)),(int)(200*c),(int)(75*c));
         buttonstart.setBackground(Color.green);
         buttonstart.setFont(new Font("Arial",Font.BOLD,20));
-        buttonstart.setBorder(BorderFactory.createLineBorder(Color.black, 5)); // Line Border + Thickness of the Border
+        buttonstart.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
-        buttonclear = new JButton();
+        buttonclear = new JButton(); //Bouton "CLEAR"
         buttonclear.setText("Clear");
         buttonclear.setBounds((int)(c*500),(int)(c*(600)),(int)(200*c),(int)(75*c));
         buttonclear.setBackground(Color.red);
         buttonclear.setFont(new Font("Arial",Font.BOLD,20));
         buttonclear.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
-        boutoncarre = new TemplateButton("carre");
+        boutoncarre = new TemplateButton("carre"); //Bouton pour tracer un carré
         boutoncarre.setBounds((int)(850*c),(int)(60*c),(int)(100*c),(int)(100*c));
 
-        boutonhexa=new TemplateButton("hexa");
+        boutonhexa=new TemplateButton("hexa"); //Bouton pour tracer un héxagone
         boutonhexa.setBounds((int)(850*c),(int)(185*c),(int)(100*c),(int)(100*c));
 
-        boutonlosange=new TemplateButton("losange");
+        boutonlosange=new TemplateButton("losange"); //Bouton pour tracer un losange
         boutonlosange.setBounds((int)(850*c),(int)(310*c),(int)(100*c),(int)(100*c));
 
 
-        boutonrandom=new TemplateButton("formelouche");
+        boutonrandom=new TemplateButton("formelouche"); //Bouton pour tracer une forme aléatoire
         boutonrandom.setBounds((int)(850*c),(int)(435*c),(int)(100*c),(int)(100*c));
 
 
-        /*Le curseur pour regler la precision*/
-        curseurpreci = new JSlider(5,9);
-        curseurpreci.setMajorTickSpacing(5);
+        /*Un glisseur(JSlider) pour régler la vitesse de l'animation:*/
+        curseurpreci = new JSlider(5,9); //Initialisation de JSlider
+        curseurpreci.setMajorTickSpacing(5); //Nombre de tick (label)
         curseurpreci.setMinorTickSpacing(1);
         curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
         curseurpreci.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
-        /*Ajout position label sur glisseur*/
+        /*Ajout labels sur le glisseur*/
         curseurpreci.setPaintLabels(true);
-        Hashtable position = new Hashtable();
-        position.put(5,new JLabel("5"));
+        Hashtable position = new Hashtable(); //Ajout d'un Hashtable pour placer des labels sur le glisseur
+        position.put(5,new JLabel("5")); //Label (une valeur de la vitesse)
         position.put(6,new JLabel("4"));
         position.put(7,new JLabel("3"));
         position.put(8,new JLabel("2"));
         position.put(9,new JLabel("1"));
 
         curseurpreci.setLabelTable(position);
-        curseurpreci.setPaintTicks(true);
+        curseurpreci.setPaintTicks(true); //Ajout des ticks
 
-        /*Affichage de l'Ã©quation*/
-        scroll= new JTextArea();
-        Font police = new Font("Arial",Font.BOLD,20);; //Texte affichÃ© Ã  l'initialisation
+        /*Affichage de l'équation*/
+        scroll= new JTextArea(); //Un TextArea où s'affiche l'équation
+        Font police = new Font("Arial",Font.BOLD,20);
         scroll.setFont(police);
-        scroll.setText("En attente...");
+        scroll.setText("En attente..."); //Texte affiché à  l'initialisation (avant "Start")
 
-        scrollequation = new JScrollPane(scroll);
+        scrollequation = new JScrollPane(scroll); //Création du JScroll
         scrollequation.setBounds((int)(c*(100)),(int)(c*(725)),(int)(c*1600),(int)(c*100));
         scrollequation.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         /*Les Labels*/
-        enter = new JLabel("Dessinez ici");
+        enter = new JLabel("Dessinez ici"); //au dessus du panel dessin
         enter.setFont(police);
         enter.setBounds((int)(350*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
-        exit = new JLabel("Affichage");
+        exit = new JLabel("Affichage"); //au dessus du panel affichage
         exit.setFont(police);
         exit.setBounds((int)(1300*c),(int)(1*c),(int)(500*c),(int)(50*c));
 
-        precitext = new JLabel();
+        precitext = new JLabel(); //affiche la vitesse sélectionnée avec le glisseur
         precitext.setText("Vitesse de l'animation : "+ String.valueOf(10 - curseurpreci.getValue()));
         precitext.setFont(police);
         precitext.setBounds((int)(c*(1200)),(int)(c*(570)),(int)(c*500),(int)(c*25));
 
-        ImageIcon logo_INSA0 = new ImageIcon("logo_INSA.png");
-        Image logoINSAim = logo_INSA0.getImage(); // transform into image pr changer la taille
-        Image logoRESIZE = logoINSAim.getScaledInstance((int)(c*270), (int)(c*70),  java.awt.Image.SCALE_SMOOTH); //changer la taille
-        ImageIcon logoRESIZEicon = new ImageIcon(logoRESIZE);  // transform it back
-        logo_INSA = new JLabel(logoRESIZEicon); //Placer la photo dans un folder Images!
-        logo_INSA.setBounds((int)(c*750),(int)(c*595),(int)(c*300),(int)(c*100));
-
-        title_label = new JLabel("Dessin par série de Fourier");
+        title_label = new JLabel("Dessin par série de Fourier"); //Titre du projet
         title_label.setBounds((int)(c*700),0,(int)(c*700),(int)(c*40));
         title_label.setFont(new Font("Osaka",Font.BOLD,25));
         title_label.setForeground(new Color (60,60,60));
 
-        /*Ajout Ã  la fenetre principale*/
+        /*Logo INSA*/
+        ImageIcon logo_INSA0 = new ImageIcon("logo_INSA.png"); //load l'image
+        Image logoINSAim = logo_INSA0.getImage(); // conversion en Image pr pouvoir redimensionner en fonction de la taille de l'écran de l'utilisateur
+        Image logoRESIZE = logoINSAim.getScaledInstance((int)(c*270), (int)(c*70),  java.awt.Image.SCALE_SMOOTH); //changer la taille de l'image
+        ImageIcon logoRESIZEicon = new ImageIcon(logoRESIZE);  // reconvertir en ImageIcon
+        logo_INSA = new JLabel(logoRESIZEicon); //placer dans un JLabel pour faciliter l'emplacement
+        logo_INSA.setBounds((int)(c*750),(int)(c*595),(int)(c*300),(int)(c*100));
+
+
+        /*Ajout à  la fenetre principale*/
 
         this.add(paneldraw);
         this.add(panelshow);
@@ -169,9 +169,9 @@ public class Window extends JFrame implements ActionListener {
         boutonlosange.addActionListener(this);
         boutonhexa.addActionListener(this);
         boutonrandom.addActionListener(this);
+
         /*Ajout curseur au ChangeListener*/
         curseurpreci.addChangeListener(new ChangeListener() {
-            @Override
             public void stateChanged(ChangeEvent e) {
                 precitext.setText("Vitesse de l'animation : "+String.valueOf(10 - curseurpreci.getValue()));
                 panelshow.angleRot = 2*Math.PI/Math.pow(2,curseurpreci.getValue());
@@ -183,7 +183,6 @@ public class Window extends JFrame implements ActionListener {
             }
         });
 
-
         setVisible(true);
 
     }
@@ -191,54 +190,58 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e){
 
         if ((e.getSource() == buttonstart)) {
+
+            /*Si le dessin est vide:*/
             if(paneldraw.listepoints.size()==0){
                 JOptionPane.showMessageDialog(this,"Liste de points vide");
             }
-            else {
-                panelshow.dessin = new LinkedList<Complex>();
-                String texteCadre = "Equation: " + "\n";
 
-                panelshow.ligne = tFourier(paneldraw.listepoints);
+            /*Si le dessin n'est pas vide:*/
+            else {
+
+                panelshow.ligne = tFourier(paneldraw.listepoints); //on décompose la liste des points du dessin par Fourier
+
+                /*Affichage de l'équation: */
+                DecimalFormat formatNombreDecimal = new DecimalFormat("0.00"); //pour limiter le nombre de chiffre significatif
+                panelshow.dessin = new LinkedList<Complex>();
+                String texteCadre = "Equation: " + "\n"; //Equation
                 int a = 0;
                 int i = 0;        //texte
                 for (Complex c : panelshow.ligne) { //JScroll equation
-                    texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")";
+                    texteCadre = texteCadre + "    +    " + formatNombreDecimal.format(c.re()) + "e^(" + i + "x + " + formatNombreDecimal.format(c.theta()) + ")";
                     i++;
-                    if (a < 4) {
-                        a++;
-                    } // la loop pour sauter les lignes tous les 3 blocs
-                    if (a == 3) {
+                    if (a < 8) { //Si a ne fait pas 8 blocs encore, on ajoute 1 à a
+                        a++; }
+                    if (a == 7) { //On saute de ligne tous les 8 blocs de l'équation (1 bloc = re*exp(j.im) )
                         texteCadre += "\n";
-                        a = 0;
+                        a = 0; //puis on initialise a à 0
                     }
                 }
                 Font font1 = new Font("SansSerif", Font.BOLD, 15);
                 scroll.setFont(font1);
-                ; //Texte affichÃ© Ã  l'initialisation
-                scroll.setText(texteCadre);
+                scroll.setText(texteCadre); //AFFICHAGE
 
-                panelshow.chrono.start();
+                panelshow.chrono.start(); //déclenchement du chrono du DispPan: début de l'animation
             }
         }
 
         if ((e.getSource() == buttonclear)) {
-            if(paneldraw.listepoints.size()==0){
+            if(paneldraw.listepoints.size()==0){ // si le panel dessin est déjà vide
                 JOptionPane.showMessageDialog(this,"Liste de points déjà vide");
             }
-            else {
+            else { //si non, on initialise la liste des points du dessin
                 panelshow.ligne = new LinkedList<Complex>();
                 panelshow.dessin = new LinkedList<Complex>();
             }
         }
 
+        /*LES TEMPLATES: */
         if (e.getSource()==boutoncarre) {
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
-
-            for (int i = 0 ; i< 200; i++)										// test avec un carré
-                listeDepart.add(new Complex(100,i/2));
-
+            for (int i = 0 ; i< 200; i++)
+                listeDepart.add(new Complex(100,i/2)); //template avec un carré
             for (int i = 0 ; i< 306; i++)
                 listeDepart.add(new Complex(103 - i*2/3,100));
             for (int i = 0 ; i< 206; i++)
@@ -249,15 +252,15 @@ public class Window extends JFrame implements ActionListener {
                 listeDepart.add(new Complex(100,i - 106));
             paneldraw.listepoints=listeDepart;
 
-            panelshow.ligne = tFourier(paneldraw.listepoints);
+            panelshow.ligne = tFourier(paneldraw.listepoints); //faire la transformée de Fourier
 
 
-        } else  if (e.getSource()==boutonhexa) {
+        } else  if (e.getSource()==boutonhexa) { // template avec un hexagone
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 100; i++)										// test avec un hexagone
+            for (int i = 0 ; i< 100; i++)
                 listeDepart.add(new Complex(100-i/2,i));
 
             for (int i = 0 ; i< 100; i++)
@@ -274,7 +277,6 @@ public class Window extends JFrame implements ActionListener {
             for (int i = 0 ; i< 100; i++)
                 listeDepart.add(new Complex(50+i/2,-100+i));
 
-
             paneldraw.listepoints=listeDepart;
 
             panelshow.ligne = tFourier(paneldraw.listepoints);
@@ -285,7 +287,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 128; i++)										// test avec un losange
+            for (int i = 0 ; i< 128; i++) // template avec un losange
                 listeDepart.add(new Complex(128-i,i));
 
             for (int i = 0 ; i< 128; i++)
@@ -303,9 +305,9 @@ public class Window extends JFrame implements ActionListener {
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
-            int random =(int) (Math.random()*3);
+            int random =(int) (Math.random()*2);
             if (random==0) {
-                for (int i = 0 ; i< 200; i++)										// test random 1
+                for (int i = 0 ; i< 200; i++)  // template d'une figure aléatoire
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(200- i,100-i/2));
@@ -313,49 +315,41 @@ public class Window extends JFrame implements ActionListener {
                     listeDepart.add(new Complex(-200+i,-100));
 
 
-            } else if (random==1) {
-                
-                for (int i = 0 ; i< 100; i++)										// test étoile
-                    listeDepart.add(new Complex(i/2,-100+i));           //1
+            } else {
+
+                for (int i = 0 ; i< 100; i++) // template étoile
+                    listeDepart.add(new Complex(i/2,-100+i));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(50+i,0));               //2
+                    listeDepart.add(new Complex(50+i,0));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(150-i*0.75,i*0.75));         //3
+                    listeDepart.add(new Complex(150-i*0.75,i*0.75));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(75+i/2,75+i));    //4
+                    listeDepart.add(new Complex(75+i/2,75+i));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(125-i*1.25,175-i/2));    //5
+                    listeDepart.add(new Complex(125-i*1.25,175-i/2));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-i*1.25,125+i/2));    //6
+                    listeDepart.add(new Complex(-i*1.25,125+i/2));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));    //8
+                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-150+i,0));    //9 + 10
+                    listeDepart.add(new Complex(-150+i,0));
 
 
                 paneldraw.listepoints=listeDepart;
 
-                panelshow.ligne = tFourier(paneldraw.listepoints);        
-
-            } else if (random==2) {
-
-            } else {
+                panelshow.ligne = tFourier(paneldraw.listepoints);
 
             }
-
-            paneldraw.listepoints=listeDepart;
-
-            panelshow.ligne = tFourier(paneldraw.listepoints);
-
 
 
         }
     }
 
-    public static LinkedList<Complex> tFourier(LinkedList<Complex> l){	//mÃ©thode qui effectue la transformÃ©e de fourier
+    public static LinkedList<Complex> tFourier(LinkedList<Complex> l){//méthode qui effectue la transformée de fourier
         double div=l.size();
         div = 1./div;
-        //Conversion LikedList en tableau
+
+        /*Conversion LinkedList en tableau: */
         Object[] objectArray = l.toArray();
         Complex[] complexArray = new Complex[objectArray.length];
         for(int i =0; i < complexArray.length; i++) {
@@ -412,15 +406,15 @@ public class Window extends JFrame implements ActionListener {
         }
 
 
-        //FFT
+        /*FFT*/
         System.out.println("Taille du tableau : "+ complexArray.length);
         Complex[] outArray = FFT.fft(complexArray);
 
-        //convert array to list
+        /*convertir array en list*/
         List<Complex> transList = new LinkedList<>(Arrays.asList(outArray));
         LinkedList<Complex> listOut = new LinkedList<Complex>(transList);
 
-        //Division pour normaliser
+        /*Division pour normaliser*/
         for(int i =0;i<listOut.size();i++){
             listOut.set(i,listOut.get(i).scale(div));
         }
@@ -430,7 +424,7 @@ public class Window extends JFrame implements ActionListener {
 
     }
 
-    public static Complex[] changeTaille(Complex[] entree,int taille){
+    public static Complex[] changeTaille(Complex[] entree,int taille){ //méthode pour changer la taille du tableau
         System.out.println("Taille entrée : " + entree.length + ". Pas puissance de 2. Conversion...");
         Complex[] trans = new Complex[taille];
         for(int i = 0; i<entree.length;i++)
