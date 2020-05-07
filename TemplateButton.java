@@ -2,16 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TemplateButton extends JButton {
+
+    /*Declaration des attributs */
     boolean carre=false;
     boolean hexa=false;
     boolean losange=false;
     boolean formelouche=false;
+
     public TemplateButton(String forme)
     {
 
 
         setFont(new Font("Arial",Font.BOLD,50/2));
-
         if (forme == "carre")
         {
             carre=true;
@@ -33,8 +35,14 @@ public class TemplateButton extends JButton {
     }
     public void paintComponent(Graphics g)
     {
+        /*Mise en blanc du bouton pour dessiner dessus */
+
         g.setColor(Color.WHITE);
         g.fillRect(0,0,getWidth(),getHeight());
+
+
+        /*Dessin sur le bouton selon la forme choisie */
+
         g.setColor(Color.black);
 
         if (carre)
@@ -49,7 +57,6 @@ public class TemplateButton extends JButton {
             g.drawLine(getWidth()*5/16,getHeight()*3/4,getWidth()*1/5,getHeight()/2);
             g.drawLine(getWidth()*1/5,getHeight()/2,getWidth()*5/16,getHeight()/4);
 
-            // g.drawOval(getWidth()/4,getHeight()/4,getWidth()/2,getHeight()/2);
         } else if(losange)
         {
             g.drawLine(getWidth()/2,getHeight()/4,3*getWidth()/4,getHeight()/2);

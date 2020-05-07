@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.text.DecimalFormat;
 
 
 public class Window extends JFrame implements ActionListener {
@@ -196,7 +195,6 @@ public class Window extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this,"Liste de points vide");
             }
             else {
-				DecimalFormat formatNombreDecimal = new DecimalFormat("0.00");
                 panelshow.dessin = new LinkedList<Complex>();
                 String texteCadre = "Equation: " + "\n";
 
@@ -204,12 +202,12 @@ public class Window extends JFrame implements ActionListener {
                 int a = 0;
                 int i = 0;        //texte
                 for (Complex c : panelshow.ligne) { //JScroll equation
-                    texteCadre = texteCadre + "    +    " + formatNombreDecimal.format(c.re()) + "e^(" + i + "x + " + formatNombreDecimal.format(c.theta()) + ")";
+                    texteCadre = texteCadre + c.re() + "exp(" + i + "t + " + c.theta() + ")";
                     i++;
-                    if (a < 8) {
+                    if (a < 4) {
                         a++;
                     } // la loop pour sauter les lignes tous les 3 blocs
-                    if (a == 7) {
+                    if (a == 3) {
                         texteCadre += "\n";
                         a = 0;
                     }
@@ -238,7 +236,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 200; i++)										// template avec un carré
+            for (int i = 0 ; i< 200; i++)										// test avec un carré
                 listeDepart.add(new Complex(100,i/2));
 
             for (int i = 0 ; i< 306; i++)
@@ -254,12 +252,12 @@ public class Window extends JFrame implements ActionListener {
             panelshow.ligne = tFourier(paneldraw.listepoints);
 
 
-        } else  if (e.getSource()==boutonhexa) {								// template avec un hexagone
+        } else  if (e.getSource()==boutonhexa) {
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 100; i++)										
+            for (int i = 0 ; i< 100; i++)										// test avec un hexagone
                 listeDepart.add(new Complex(100-i/2,i));
 
             for (int i = 0 ; i< 100; i++)
@@ -287,7 +285,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 128; i++)										// template avec un losange
+            for (int i = 0 ; i< 128; i++)										// test avec un losange
                 listeDepart.add(new Complex(128-i,i));
 
             for (int i = 0 ; i< 128; i++)
@@ -307,7 +305,7 @@ public class Window extends JFrame implements ActionListener {
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             int random =(int) (Math.random()*3);
             if (random==0) {
-                for (int i = 0 ; i< 200; i++)									// template random 1
+                for (int i = 0 ; i< 200; i++)										// test random 1
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(200- i,100-i/2));
@@ -317,22 +315,22 @@ public class Window extends JFrame implements ActionListener {
 
             } else if (random==1) {
                 
-                for (int i = 0 ; i< 100; i++)									// template étoile
-                    listeDepart.add(new Complex(i/2,-100+i));      
+                for (int i = 0 ; i< 100; i++)										// test étoile
+                    listeDepart.add(new Complex(i/2,-100+i));           //1
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(50+i,0));            
+                    listeDepart.add(new Complex(50+i,0));               //2
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(150-i*0.75,i*0.75));      
+                    listeDepart.add(new Complex(150-i*0.75,i*0.75));         //3
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(75+i/2,75+i));    
+                    listeDepart.add(new Complex(75+i/2,75+i));    //4
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(125-i*1.25,175-i/2));   
+                    listeDepart.add(new Complex(125-i*1.25,175-i/2));    //5
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-i*1.25,125+i/2));   
+                    listeDepart.add(new Complex(-i*1.25,125+i/2));    //6
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));    
+                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));    //8
                 for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-150+i,0));    
+                    listeDepart.add(new Complex(-150+i,0));    //9 + 10
 
 
                 paneldraw.listepoints=listeDepart;
@@ -354,10 +352,9 @@ public class Window extends JFrame implements ActionListener {
         }
     }
 
-    public static LinkedList<Complex> tFourier(LinkedList<Complex> l){			//méthode qui effectue la transformÃ©e de fourier
+    public static LinkedList<Complex> tFourier(LinkedList<Complex> l){	//mÃ©thode qui effectue la transformÃ©e de fourier
         double div=l.size();
         div = 1./div;
-        
         //Conversion LikedList en tableau
         Object[] objectArray = l.toArray();
         Complex[] complexArray = new Complex[objectArray.length];

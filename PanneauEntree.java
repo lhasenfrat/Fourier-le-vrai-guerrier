@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseListener
 {
-
+    /*Declaration des attributs */
     int xmouse;
     int ymouse;
     int xmousebefore;
@@ -17,10 +17,10 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     LinkedList<Complex> listepoints ;
     LinkedList<int[]> listecoordreelles ;
 
-    MouseEvent souris;
 
-    public PanneauEntree()
+    public PanneauEntree()             //Constructeur
     {
+        /* Initialisation des variables */
         needclear=true;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -31,19 +31,25 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public void paint(Graphics z){
 
-
+        /*Nettoyage du panel pour eviter des bugs d'affichage */
         z.setColor(Color.WHITE);
         z.fillRect(0,0,getWidth(),getHeight());
+
+
         z.setColor(Color.black);
-        z.drawLine(xmousebefore,ymousebefore,xmouse,ymouse);
+
+        /*Ajout des lignes en mémoires */
         int[] ligne ={xmousebefore, ymousebefore,xmouse,ymouse};
         listecoordreelles.add(ligne);
 
+        /*Dessin du trace */
         for (int[] l : listecoordreelles)
         {
             z.drawLine(l[0],l[1],l[2],l[3]);
 
         }
+
+        /*Nettoyage du panel si on reclick dessus */
         if (needclear)
         {
             listecoordreelles.clear();
@@ -64,6 +70,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
 
     public void mousePressed(MouseEvent e)
     {
+        /*Detection d'un nouveau trace par l'utilisateur */
         needclear=true;
 
         if ( !ispressedbefore)
@@ -83,6 +90,7 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
     public void mouseReleased(MouseEvent e)
     {
 
+        /*Bouclage de tracee quand on relache le click */
         ispressed=false;
         xmousebefore=(int)(listepoints.getLast().re() +this.getWidth() / 2);  //Coordonnées où on lâche
         ymousebefore=(int)(listepoints.getLast().im() + this.getHeight() / 2);
@@ -101,16 +109,12 @@ public class PanneauEntree extends JPanel implements  MouseMotionListener,MouseL
         {
             listepoints.add(new Complex(xcurrent +i*xvector - this.getWidth() / 2, ycurrent + i*yvector- this.getHeight() / 2));
         }
-/*
-        while(listepoints.size()<3000){
-            listepoints.add(new Complex(xmouse - this.getWidth() / 2, ymouse- this.getHeight() / 2));
-        }
-*/
+
         this.repaint();
     }
     public void mouseDragged(MouseEvent e)
     {
-
+        /*Ajout des points au fur et à mesure du trace */
         xmousebefore=xmouse;
         ymousebefore=ymouse;
         xmouse = e.getX();
