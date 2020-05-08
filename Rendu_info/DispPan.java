@@ -35,7 +35,7 @@ public class DispPan extends JPanel implements ActionListener{
             int i = 0;
             Complex lineEnd = new Complex(0,0);
             
-            //on fait tourner chaque vecteur de la transformée de Fourier
+            //on fait tourner chaque vecteurs de la transformée de Fourier
             for(Complex c : ligne){
                 lineEnd=lineEnd.plus(c);
                 c.rotate(angleRot*i);
