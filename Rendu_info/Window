@@ -75,7 +75,7 @@ public class Window extends JFrame implements ActionListener {
         boutoncarre = new TemplateButton("carre"); //Bouton pour tracer un carré
         boutoncarre.setBounds((int)(850*c),(int)(60*c),(int)(100*c),(int)(100*c));
 
-        boutonhexa=new TemplateButton("hexa"); //Bouton pour tracer un héxagone
+        boutonhexa=new TemplateButton("hexa"); //Bouton pour tracer un hexagone
         boutonhexa.setBounds((int)(850*c),(int)(185*c),(int)(100*c),(int)(100*c));
 
         boutonlosange=new TemplateButton("losange"); //Bouton pour tracer un losange
@@ -87,7 +87,7 @@ public class Window extends JFrame implements ActionListener {
 
 
         /*Un glisseur(JSlider) pour régler la vitesse de l'animation:*/
-        curseurpreci = new JSlider(5,9); //Initialisation de JSlider
+        curseurpreci = new JSlider(5,9); //Initialisation du JSlider
         curseurpreci.setMajorTickSpacing(5); //Nombre de tick (label)
         curseurpreci.setMinorTickSpacing(1);
         curseurpreci.setBounds((int)(c*(1100)),(int)(c*(600)),(int)(c*500),(int)(c*75));
@@ -136,7 +136,7 @@ public class Window extends JFrame implements ActionListener {
 
         /*Logo INSA*/
         ImageIcon logo_INSA0 = new ImageIcon("logo_INSA.png"); //load l'image
-        Image logoINSAim = logo_INSA0.getImage(); // conversion en Image pr pouvoir redimensionner en fonction de la taille de l'écran de l'utilisateur
+        Image logoINSAim = logo_INSA0.getImage(); // convertir en Image pr pouvoir redimensionner en fonction de la taille de l'écran de l'utilisateur
         Image logoRESIZE = logoINSAim.getScaledInstance((int)(c*270), (int)(c*70),  java.awt.Image.SCALE_SMOOTH); //changer la taille de l'image
         ImageIcon logoRESIZEicon = new ImageIcon(logoRESIZE);  // reconvertir en ImageIcon
         logo_INSA = new JLabel(logoRESIZEicon); //placer dans un JLabel pour faciliter l'emplacement
@@ -236,12 +236,12 @@ public class Window extends JFrame implements ActionListener {
         }
 
         /*LES TEMPLATES: */
-        if (e.getSource()==boutoncarre) {
+        if (e.getSource()==boutoncarre) {                   //template avec un carré
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             for (int i = 0 ; i< 200; i++)
-                listeDepart.add(new Complex(100,i/2)); //template avec un carré
+                listeDepart.add(new Complex(100,i/2)); 
             for (int i = 0 ; i< 306; i++)
                 listeDepart.add(new Complex(103 - i*2/3,100));
             for (int i = 0 ; i< 206; i++)
@@ -255,7 +255,7 @@ public class Window extends JFrame implements ActionListener {
             panelshow.ligne = tFourier(paneldraw.listepoints); //faire la transformée de Fourier
 
 
-        } else  if (e.getSource()==boutonhexa) { // template avec un hexagone
+        } else  if (e.getSource()==boutonhexa) {            // template avec un hexagone
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
@@ -282,12 +282,12 @@ public class Window extends JFrame implements ActionListener {
             panelshow.ligne = tFourier(paneldraw.listepoints);
 
 
-        } else  if (e.getSource()==boutonlosange) {
+        } else  if (e.getSource()==boutonlosange) {         // template avec un losange
             panelshow.ligne = new LinkedList<Complex>();
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
 
-            for (int i = 0 ; i< 128; i++) // template avec un losange
+            for (int i = 0 ; i< 128; i++) 
                 listeDepart.add(new Complex(128-i,i));
 
             for (int i = 0 ; i< 128; i++)
@@ -306,8 +306,8 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             int random =(int) (Math.random()*2);
-            if (random==0) {
-                for (int i = 0 ; i< 200; i++)               // template d'un triange rectangle
+            if (random==0) {                        // template d'un triange rectangle
+                for (int i = 0 ; i< 200; i++)               
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
                     listeDepart.add(new Complex(200- i,100-i/2));
