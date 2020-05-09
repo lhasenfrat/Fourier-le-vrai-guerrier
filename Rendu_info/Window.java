@@ -306,7 +306,8 @@ public class Window extends JFrame implements ActionListener {
             panelshow.dessin = new LinkedList<Complex>();
             LinkedList<Complex> listeDepart=new LinkedList<Complex>();
             int random = (int)(Math.random()*2);
-            if (random==0) {                        // template d'un triange rectangle
+            if (random < 1) {   // template d'un triangle rectangle
+
                 for (int i = 0 ; i< 200; i++)               
                     listeDepart.add(new Complex(200,-100+i));
                 for (int i = 0 ; i< 400; i++)
@@ -315,31 +316,31 @@ public class Window extends JFrame implements ActionListener {
                     listeDepart.add(new Complex(-200+i,-100));
 
 
-            } if (random==1) {
+            } else {
 
-                for (int i = 0 ; i< 100; i++) 				// template étoile
-                    listeDepart.add(new Complex(i/2,-100+i));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(50+i,0));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(150-i*0.75,i*0.75));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(75+i/2,75+i));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(125-i*1.25,175-i/2));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-i*1.25,125+i/2));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-75-i*0.75,75-i*0.75));
-                for (int i = 0 ; i< 100; i++)
-                    listeDepart.add(new Complex(-150+i,0));
+                for (int i = 0; i < 100; i++)                // template étoile
+                    listeDepart.add(new Complex(i / 2, -100 + i));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(50 + i, 0));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(150 - i * 0.75, i * 0.75));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(75 + i / 2, 75 + i));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(125 - i * 1.25, 175 - i / 2));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(-i * 1.25, 125 + i / 2));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(-75 - i * 0.75, 75 - i * 0.75));
+                for (int i = 0; i < 100; i++)
+                    listeDepart.add(new Complex(-150 + i, 0));
 
-
+            }
                 paneldraw.listepoints=listeDepart;
 
                 panelshow.ligne = tFourier(paneldraw.listepoints);
 
-            }
+
 
 
         }
@@ -418,6 +419,7 @@ public class Window extends JFrame implements ActionListener {
             listOut.set(i,listOut.get(i).scale(div));
         }
         System.out.println("Nombre de vecteurs en sortie : " + listOut.size() + "\r\n");
+        System.out.println("-*-*-*-*-*-*-*-*-*-");
         return (listOut);
 
     }
